@@ -4,7 +4,7 @@ namespace diep
 {
 	namespace coll
 	{
-		bool collide(const Object& obj1, const Object& obj2)
+		bool collide(const object::Object& obj1, const object::Object& obj2)
 		{
 			switch ((int)obj1.Shape() | (int)obj2.Shape())
 			{
@@ -16,7 +16,7 @@ namespace diep
 			}
 		}
 
-		bool circleVsCircle(const Object& obj1, const Object& obj2)
+		bool circleVsCircle(const object::Object& obj1, const object::Object& obj2)
 		{
 			return pow(obj1.X() - obj2.X(), 2) + pow(obj1.Y() - obj2.Y(), 2) < pow(obj1.Radius() + obj2.Radius(), 2);
 		}

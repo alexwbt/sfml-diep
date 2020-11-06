@@ -4,16 +4,17 @@ namespace diep
 {
 	Game::~Game()
 	{
-		for (const Object* object : objects_)
+		for (const object::Object* object : objects_)
 			delete object;
 	}
 
-	void Game::Update(float time_scale)
+	void Game::Update(sf::RenderWindow& window)
 	{
-		for (Object* object : objects_)
+		for (object::Object* object : objects_)
 		{
-			if (control_id_ == object->Id() && object->Type() == Type::kTank)
+			if (control_id_ == object->Id() && object->Type() == object::Type::kTank)
 			{
+				object::Tank* tank = (object::Tank*)object;
 				bool controls[4] =
 				{
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
@@ -21,9 +22,13 @@ namespace diep
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)
 				};
-				((Tank*)object)->SetControls(controls);
+				tank->SetControls(controls);
+
+				sf::Vector2i mouse = sf::Mouse::getPosition(window);
+				float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
+				tank->Turn(dir);
 			}
-			object->Update(time_scale);
+			object->Update();
 			if (focus_id_ == object->Id())
 			{
 				cam_x_ = object->X();
@@ -50,7 +55,7 @@ namespace diep
 			window.draw(line);
 		}
 
-		for (const Object* object : objects_)
+		for (const object::Object* object : objects_)
 			object->Render(window);
 	}
 

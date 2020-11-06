@@ -5,7 +5,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 5, 1, 1));
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
 
 	diep::Game& game = diep::Game::Instance();
 	game.SetWindowSize(window.getSize());
@@ -45,7 +45,7 @@ int main()
 		bool should_update = delta_time > 1;
 		while (delta_time >= 1)
 		{
-			game.Update(1.0);
+			game.Update(window);
 			update_counter++;
 			delta_time--;
 		}

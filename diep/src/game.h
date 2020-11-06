@@ -17,7 +17,7 @@ namespace diep
 		}
 
 	private:
-		float grid_size_ = 10.0f;
+		float grid_size_ = 20.0f;
 		float grid_line_width_ = 0.5f;
 
 		float cam_x_ = 0.0f, cam_y_ = 0.0f;
@@ -27,14 +27,14 @@ namespace diep
 		unsigned int focus_id_ = 0;
 		unsigned int control_id_ = 0;
 
-		std::list<Object*> objects_;
+		std::list<object::Object*> objects_;
 
 	private:
 		Game()
 		{
-			objects_.push_back(new Tank(0, 0, 0, 10));
+			objects_.push_back(new object::Tank(0, 0, 0, 10));
 			bool ctrls[4] = { false, true, false, false };
-			Tank* tank = new Tank(1, 150, 0, 10);
+			object::Tank* tank = new object::Tank(1, 300, 0, 30);
 			tank->SetControls(ctrls);
 			objects_.push_back(tank);
 		}
@@ -47,9 +47,9 @@ namespace diep
 
 		float Scale() const { return scale_; }
 		void Scale(float scale) { scale_ = scale < 1 ? 1 : scale; }
-		const std::list<Object*>& Objects() const { return objects_; }
+		const std::list<object::Object*>& Objects() const { return objects_; }
 
-		void Update(float delta_time);
+		void Update(sf::RenderWindow& window);
 		void Render(sf::RenderWindow& window) const;
 
 		void SetWindowSize(const sf::Vector2u& size);

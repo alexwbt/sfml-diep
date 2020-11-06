@@ -1,25 +1,33 @@
 #pragma once
 
 #include "object.h"
+#include "../weapon/weapon.h"
 
 namespace diep
 {
-	class Tank : public Object
+	namespace object
 	{
-	private:
-		bool controls_[4];
-
-		float move_force_ = 2.0f;
-
-	public:
-		Tank(unsigned int id, float x, float y, float radius)
-			: Object(id, x, y, radius)
+		class Tank : public Object
 		{
-			type_ = Type::kTank;
-		}
+		private:
+			bool controls_[4];
 
-		void Update(float time_scale) override;
+			float move_force_ = 2.0f;
 
-		void SetControls(bool* controls);
-	};
+			weapon::Weapon weapon_;
+
+		public:
+			Tank(unsigned int id, float x, float y, float radius)
+				: Object(id, x, y, radius), weapon_(this, weapon::Type::kSingleConnon)
+			{
+				type_ = Type::kTank;
+			}
+
+			void SetControls(bool* controls);
+			void Turn(float dir) { weapon_.Turn(dir); }
+
+			void Update() override;
+			void Render(sf::RenderWindow& window) const override;
+		};
+	}
 }

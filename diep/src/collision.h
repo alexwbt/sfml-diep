@@ -6,8 +6,8 @@ namespace diep
 {
 	namespace coll
 	{
-		bool collide(const Object& obj1, const Object& obj2);
+		bool collide(const object::Object& obj1, const object::Object& obj2);
 
-		bool circleVsCircle(const Object& obj1, const Object& obj2);
+		bool circleVsCircle(const object::Object& obj1, const object::Object& obj2);
 	}
 }
