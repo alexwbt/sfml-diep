@@ -6,7 +6,7 @@ namespace diep
 {
 	namespace object
 	{
-		const float Object::kFrictionForce = 1.0f;
+		const float Object::kFrictionForce = 10.0f;
 		const float Object::kVelocityStep = 0.05f;
 
 		bool Object::OnScreen() const
@@ -48,7 +48,7 @@ namespace diep
 				{
 					if (obj->id_ != id_ && coll::collide(*this, *obj))
 					{
-						float force = mass_ * pow(vel_, 2);
+						float force = mass_ * pow(vel_, 2) / 2.0f;
 						float dir = atan2(obj->y_ - y_, obj->x_ - x_);
 						float fx = cos(dir);
 						float fy = sin(dir);
@@ -85,8 +85,8 @@ namespace diep
 			{
 				sf::Vertex(sf::Vector2f(screen_x, screen_y), sf::Color::Red),
 				sf::Vertex(sf::Vector2f(
-					game.OnScreenX(x_ + cos(vel_dir_) * vel_ * 10.0f),
-					game.OnScreenY(y_ + sin(vel_dir_) * vel_ * 10.0f)
+					game.OnScreenX(x_ + cos(vel_dir_) * vel_),
+					game.OnScreenY(y_ + sin(vel_dir_) * vel_)
 				), sf::Color::Red)
 			};
 			window.draw(line, 2, sf::Lines);

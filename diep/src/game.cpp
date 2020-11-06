@@ -61,7 +61,7 @@ namespace diep
 
 	void Game::SetWindowSize(const sf::Vector2u& size)
 	{
-		win_width_ = size.x;
-		win_height_ = size.y;
+		win_width_ = (float)size.x;
+		win_height_ = (float)size.y;
 	}
 }

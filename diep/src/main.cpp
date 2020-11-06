@@ -28,7 +28,7 @@ int main()
 				window.close();
 				break;
 			case sf::Event::Resized:
-				window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
+				window.setView(sf::View(sf::FloatRect(0, 0, (float)event.size.width, (float)event.size.height)));
 				game.SetWindowSize(sf::Vector2u(event.size.width, event.size.height));
 				break;
 			case sf::Event::MouseWheelMoved:

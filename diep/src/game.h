@@ -17,12 +17,12 @@ namespace diep
 		}
 
 	private:
-		float grid_size_ = 20.0f;
+		float grid_size_ = 50.0f;
 		float grid_line_width_ = 0.5f;
 
 		float cam_x_ = 0.0f, cam_y_ = 0.0f;
 		float scale_ = 3.0f;
-		unsigned int win_width_ = 0, win_height_ = 0;
+		float win_width_ = 0.0f, win_height_ = 0.0f;
 
 		unsigned int focus_id_ = 0;
 		unsigned int control_id_ = 0;

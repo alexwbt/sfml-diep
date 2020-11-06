@@ -10,9 +10,9 @@ namespace diep
 		class Tank : public Object
 		{
 		private:
-			bool controls_[4];
+			bool controls_[4] = { 0, 0, 0, 0 };
 
-			float move_force_ = 2.0f;
+			float move_force_ = 13.0f;
 
 			weapon::Weapon weapon_;
 
