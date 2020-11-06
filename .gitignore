@@ -1,0 +1,11 @@
+bin/
+int/
+deps/
+
+.vs/
+.vscode/
+
+*.VC.db
+*.VC.VC.opendb
+
+*.vcxproj.user
