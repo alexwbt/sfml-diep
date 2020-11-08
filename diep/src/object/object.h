@@ -33,6 +33,8 @@ namespace diep
 			float vel_ = 0.0f;
 			float vel_dir_ = 0.0f;
 			float mass_;
+			bool frictionless_ = false;
+			bool should_remove_ = false;
 
 			Shape shape_ = Shape::kCircle;
 			Type type_ = Type::kObject;
@@ -52,10 +54,15 @@ namespace diep
 			float X() const { return x_; }
 			float Y() const { return y_; }
 			float Radius() const { return radius_; }
+			float Mass() const { return mass_; }
 			Type Type() const { return type_; }
 			Shape Shape() const { return shape_; }
+			bool ShouldRemove() const { return should_remove_; }
+			float Velocity() const { return vel_; }
+			float VelocityDir() const { return vel_dir_; }
 
-			void Push(const sf::Vector2f& force) { forces_.push_back(force); }
+			void Frictionless() { frictionless_ = true; }
+			void Push(const sf::Vector2f force) { forces_.push_back(force); }
 
 			virtual bool OnScreen() const;
 

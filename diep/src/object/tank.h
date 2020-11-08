@@ -9,8 +9,11 @@ namespace diep
 	{
 		class Tank : public Object
 		{
+		public:
+			static constexpr int kControlListSize = 5;
+
 		private:
-			bool controls_[4] = { 0, 0, 0, 0 };
+			bool controls_[kControlListSize] = { 0, 0, 0, 0, 0 };
 
 			float move_force_ = 13.0f;
 

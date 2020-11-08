@@ -5,16 +5,17 @@
 
 int main()
 {
+	using namespace std::chrono;
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
 
 	diep::Game& game = diep::Game::Instance();
 	game.SetWindowSize(window.getSize());
 
-	auto start_time = std::chrono::high_resolution_clock::now();
+	auto start_time = high_resolution_clock::now();
 	double delta_time = 0.0;
 	constexpr double time_step = 1000000000.0 / 60.0;
 
-	auto update_timer = std::chrono::high_resolution_clock::now();
+	auto update_timer = high_resolution_clock::now();
 	int update_counter = 0;
 
 	while (window.isOpen())
@@ -38,8 +39,8 @@ int main()
 			}
 		}
 
-		auto now = std::chrono::high_resolution_clock::now();
-		delta_time += (double)std::chrono::duration_cast<std::chrono::nanoseconds>(now - start_time).count() / time_step;
+		auto now = high_resolution_clock::now();
+		delta_time += (double)duration_cast<nanoseconds>(now - start_time).count() / time_step;
 		start_time = now;
 
 		bool should_update = delta_time > 1;
@@ -57,7 +58,7 @@ int main()
 			window.display();
 		}
 
-		if (std::chrono::duration_cast<std::chrono::nanoseconds>(now - update_timer).count() >= 1000000000)
+		if (duration_cast<nanoseconds>(now - update_timer).count() >= 1000000000)
 		{
 			window.setTitle("Diep | ups: " + std::to_string(update_counter));
 			update_counter = 0;

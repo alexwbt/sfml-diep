@@ -6,7 +6,7 @@ namespace diep
 	{
 		void Tank::SetControls(bool* controls)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < object::Tank::kControlListSize; i++)
 				controls_[i] = controls[i];
 		}
 
@@ -27,6 +27,8 @@ namespace diep
 					sin(move_dir) * move_force_
 				});
 			}
+
+			weapon_.Fire(controls_[4]);
 
 			Object::Update();
 			weapon_.Update();

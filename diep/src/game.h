@@ -28,13 +28,14 @@ namespace diep
 		unsigned int control_id_ = 0;
 
 		std::list<object::Object*> objects_;
+		std::list<object::Object*> spawn_list_;
 
 	private:
 		Game()
 		{
 			objects_.push_back(new object::Tank(0, 0, 0, 10));
-			bool ctrls[4] = { false, true, false, false };
-			object::Tank* tank = new object::Tank(1, 300, 0, 30);
+			bool ctrls[object::Tank::kControlListSize] = { false, true, false, false, false };
+			object::Tank* tank = new object::Tank(NextId(), 300, 0, 30);
 			tank->SetControls(ctrls);
 			objects_.push_back(tank);
 		}
@@ -56,5 +57,8 @@ namespace diep
 
 		float Game::OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
 		float Game::OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
+
+		void Spawn(object::Object* obj) { spawn_list_.push_back(obj); }
+		unsigned int NextId() const { static unsigned int next_id = 1; return next_id++; };
 	};
 }

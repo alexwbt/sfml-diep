@@ -29,8 +29,8 @@ namespace diep
 			float y_vel = sin(vel_dir_) * vel_;
 			float friction_x = abs(x_vel) < kFrictionForce ? -x_vel : kFrictionForce * (-x_vel / abs(x_vel));
 			float friction_y = abs(y_vel) < kFrictionForce ? -y_vel : kFrictionForce * (-y_vel / abs(y_vel));
-			float accel_x = (force_x + friction_x) / mass_;
-			float accel_y = (force_y + friction_y) / mass_;
+			float accel_x = (force_x + (frictionless_ ? 0.0f : friction_x)) / mass_;
+			float accel_y = (force_y + (frictionless_ ? 0.0f : friction_y)) / mass_;
 			x_vel += accel_x;
 			y_vel += accel_y;
 			vel_ = sqrt(pow(x_vel, 2) + pow(y_vel, 2));
@@ -48,7 +48,7 @@ namespace diep
 				{
 					if (obj->id_ != id_ && coll::collide(*this, *obj))
 					{
-						float force = mass_ * pow(vel_, 2) / 2.0f;
+						float force = mass_ * vel_ / 10.0f;
 						float dir = atan2(obj->y_ - y_, obj->x_ - x_);
 						float fx = cos(dir);
 						float fy = sin(dir);

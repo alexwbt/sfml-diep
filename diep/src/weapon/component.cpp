@@ -13,15 +13,7 @@ namespace diep
 			}
 			else if (data_->firing)
 			{
-				// const x = (x + length) * owner.radius;
-				// const y = y * owner.radius;
-				// const cannonDir = radians(owner.rotate) + rotate;
-				// const dir = Math.atan2(y, x) + cannonDir;
-				// const mag = pythagorean(x, y);
-				// const radius = owner.radius * width / 2;
-				// const movingSpeed = bulletSpeed * owner.bulletSpeed;
-				// game.spawn(new CannonBall();
-
+				Fire();
 				reload_timer_ = (data_->reload_speed - delay_) * reload_speed_mod_;
 			}
 		}

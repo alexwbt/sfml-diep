@@ -10,17 +10,20 @@ namespace diep
 
 	void Game::Update(sf::RenderWindow& window)
 	{
+		objects_.splice(objects_.end(), spawn_list_);
+		spawn_list_.clear();
 		for (object::Object* object : objects_)
 		{
 			if (control_id_ == object->Id() && object->Type() == object::Type::kTank)
 			{
 				object::Tank* tank = (object::Tank*)object;
-				bool controls[4] =
+				bool controls[object::Tank::kControlListSize] =
 				{
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
 					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
+					sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
 				};
 				tank->SetControls(controls);
 
@@ -35,6 +38,7 @@ namespace diep
 				cam_y_ = object->Y();
 			}
 		}
+		objects_.remove_if([](object::Object* obj) { return obj->ShouldRemove(); });
 	}
 
 	void Game::Render(sf::RenderWindow& window) const

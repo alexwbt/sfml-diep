@@ -20,18 +20,12 @@ namespace diep
 			return data;
 		}
 
-		Weapon::Weapon(const object::Object* owner, Type type)
-			: type_(type)
-		{
-			CreateWeapon(owner, this);
-		}
-
 		Weapon::~Weapon()
 		{
 			for (const Component* component : components_)
 				delete component;
 
-			delete data;
+			delete data_;
 		}
 
 		void Weapon::Turn(float dir)
