@@ -1,4 +1,5 @@
 #include "game.h"
+#include "collision.h"
 
 namespace diep
 {
@@ -12,33 +13,34 @@ namespace diep
 	{
 		objects_.splice(objects_.end(), spawn_list_);
 		spawn_list_.clear();
-		for (object::Object* object : objects_)
-		{
-			if (control_id_ == object->Id() && object->Type() == object::Type::kTank)
+		objects_.remove_if([this, &window](object::Object* object)
 			{
-				object::Tank* tank = (object::Tank*)object;
-				bool controls[object::Tank::kControlListSize] =
+				if (control_id_ == object->id() && object->type() == object::Type::kTank)
 				{
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
-					sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
-				};
-				tank->SetControls(controls);
+					object::Tank* tank = (object::Tank*)object;
+					bool controls[object::Tank::kControlListSize] =
+					{
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
+						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
+						sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
+					};
+					tank->SetControls(controls);
 
-				sf::Vector2i mouse = sf::Mouse::getPosition(window);
-				float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
-				tank->Turn(dir);
-			}
-			object->Update();
-			if (focus_id_ == object->Id())
-			{
-				cam_x_ = object->X();
-				cam_y_ = object->Y();
-			}
-		}
-		objects_.remove_if([](object::Object* obj) { return obj->ShouldRemove(); });
+					sf::Vector2i mouse = sf::Mouse::getPosition(window);
+					float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
+					tank->Turn(dir);
+				}
+				object->Update();
+				if (focus_id_ == object->id())
+				{
+					cam_x_ = object->X();
+					cam_y_ = object->Y();
+				}
+
+				return object->should_remove();
+			});
 	}
 
 	void Game::Render(sf::RenderWindow& window) const
@@ -67,5 +69,13 @@ namespace diep
 	{
 		win_width_ = (float)size.x;
 		win_height_ = (float)size.y;
+	}
+
+	void Game::Spawn(object::Object* obj)
+	{
+		for (object::Object* other : objects_)
+			if (obj->id() != other->id() && coll::collide(*obj, *other))
+				return;
+		spawn_list_.push_back(obj);
 	}
 }

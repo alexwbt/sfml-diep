@@ -16,6 +16,12 @@ namespace diep
 
 		void Object::Update()
 		{
+			if (dying_ && --dying_timer_ <= 0)
+			{
+				should_remove_ = true;
+				return;
+			}
+
 			float force_x = 0.0f;
 			float force_y = 0.0f;
 			for (const sf::Vector2f& force : forces_)

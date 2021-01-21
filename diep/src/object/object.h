@@ -43,6 +43,9 @@ namespace diep
 
 			std::list<sf::Vector2f> forces_;
 
+			bool dying_ = false;
+			int dying_timer_ = 0;
+
 		public:
 			Object(unsigned int id, float x, float y, float radius)
 				: id_(id), x_(x), y_(y), radius_(radius)
@@ -50,19 +53,20 @@ namespace diep
 				mass_ = 3.14159f * pow(radius, 2);
 			}
 
-			unsigned int Id() const { return id_; }
+			unsigned int id() const { return id_; }
 			float X() const { return x_; }
 			float Y() const { return y_; }
-			float Radius() const { return radius_; }
-			float Mass() const { return mass_; }
-			Type Type() const { return type_; }
-			Shape Shape() const { return shape_; }
-			bool ShouldRemove() const { return should_remove_; }
-			float Velocity() const { return vel_; }
-			float VelocityDir() const { return vel_dir_; }
+			float radius() const { return radius_; }
+			float mass() const { return mass_; }
+			Type type() const { return type_; }
+			Shape shape() const { return shape_; }
+			bool should_remove() const { return should_remove_; }
+			float velocity() const { return vel_; }
+			float velocity_dir() const { return vel_dir_; }
 
 			void Frictionless() { frictionless_ = true; }
 			void Push(const sf::Vector2f force) { forces_.push_back(force); }
+			void Dying(int time) { dying_ = true; dying_timer_ = time; }
 
 			virtual bool OnScreen() const;
 
