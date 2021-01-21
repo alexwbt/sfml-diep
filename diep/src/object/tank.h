@@ -15,7 +15,7 @@ namespace diep
 		private:
 			bool controls_[kControlListSize] = { 0, 0, 0, 0, 0 };
 
-			float move_force_ = 13.0f;
+			float move_force_ = 0.1f;
 
 			weapon::Weapon weapon_;
 

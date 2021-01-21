@@ -22,16 +22,18 @@ namespace diep
 			if (input_x != 0 || input_y != 0)
 			{
 				float move_dir = atan2(input_y, input_x);
-				forces_.push_back({
-					cos(move_dir) * move_force_,
-					sin(move_dir) * move_force_
-				});
+				Push(cos(move_dir) * move_force_, sin(move_dir) * move_force_);
 			}
 
 			weapon_.Fire(controls_[4]);
 
 			Object::Update();
 			weapon_.Update();
+
+			vel_x_ *= 0.95f;
+			vel_y_ *= 0.95f;
+			if (abs(vel_x_) < kVelocityStep) vel_x_ = 0;
+			if (abs(vel_y_) < kVelocityStep) vel_y_ = 0;
 		}
 
 		void Tank::Render(sf::RenderWindow& window) const

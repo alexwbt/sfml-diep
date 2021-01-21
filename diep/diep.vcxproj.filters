@@ -27,9 +27,6 @@
     <ClCompile Include="src\object\tank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\weapon\weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\weapon\component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\collision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +53,6 @@
     <ClInclude Include="src\object\tank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\weapon\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\weapon\cannon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #include "game.h"
-#include "collision.h"
+#include "util/collision.h"
 
 namespace diep
 {
@@ -14,33 +14,33 @@ namespace diep
 		objects_.splice(objects_.end(), spawn_list_);
 		spawn_list_.clear();
 		objects_.remove_if([this, &window](object::Object* object)
+		{
+			if (control_id_ == object->id() && object->type() == object::Type::kTank)
 			{
-				if (control_id_ == object->id() && object->type() == object::Type::kTank)
+				object::Tank* tank = (object::Tank*)object;
+				bool controls[object::Tank::kControlListSize] =
 				{
-					object::Tank* tank = (object::Tank*)object;
-					bool controls[object::Tank::kControlListSize] =
-					{
-						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
-						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
-						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
-						sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
-						sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
-					};
-					tank->SetControls(controls);
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
+					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
+					sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
+				};
+				tank->SetControls(controls);
 
-					sf::Vector2i mouse = sf::Mouse::getPosition(window);
-					float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
-					tank->Turn(dir);
-				}
-				object->Update();
-				if (focus_id_ == object->id())
-				{
-					cam_x_ = object->X();
-					cam_y_ = object->Y();
-				}
+				sf::Vector2i mouse = sf::Mouse::getPosition(window);
+				float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
+				tank->Turn(dir);
+			}
+			object->Update();
+			if (focus_id_ == object->id())
+			{
+				cam_x_ = object->x();
+				cam_y_ = object->y();
+			}
 
-				return object->should_remove();
-			});
+			return object->should_remove();
+		});
 	}
 
 	void Game::Render(sf::RenderWindow& window) const
@@ -48,13 +48,15 @@ namespace diep
 		const float grid_size = grid_size_ * scale_;
 		const float grid_line_width = grid_line_width_ * scale_;
 
-		for (float x = fmod(OnScreenX(0), grid_size); x < win_width_; x += grid_size) {
+		for (float x = fmod(OnScreenX(0), grid_size); x < win_width_; x += grid_size)
+		{
 			sf::RectangleShape line(sf::Vector2f(grid_line_width, win_height_));
 			line.setPosition(x, -grid_line_width / 2.0f);
 			line.setFillColor(sf::Color(200, 200, 200, 255));
 			window.draw(line);
 		}
-		for (float y = fmod(OnScreenY(0), grid_size); y < win_height_; y += grid_size) {
+		for (float y = fmod(OnScreenY(0), grid_size); y < win_height_; y += grid_size)
+		{
 			sf::RectangleShape line(sf::Vector2f(win_width_, grid_line_width));
 			line.setPosition(-grid_line_width / 2.0f, y);
 			line.setFillColor(sf::Color(200, 200, 200, 255));

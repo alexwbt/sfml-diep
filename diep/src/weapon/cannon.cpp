@@ -1,5 +1,6 @@
 #include "cannon.h"
 #include "../game.h"
+#include "../object/projectile.h"
 
 namespace diep
 {
@@ -13,19 +14,15 @@ namespace diep
             const float dir = dir_ + dir_offset_;
             const float mag = sqrt(x * x + y * y);
             const float radius = data_->owner->radius() * width_ / 2.0f;
-            object::Object* ball = new object::Object(
+            object::Projectile* ball = new object::Projectile(
                 game.NextId(),
-                data_->owner->X() + cos(dir) * mag,
-                data_->owner->Y() + sin(dir) * mag,
-                radius
+                data_->owner->x() + cos(dir) * mag,
+                data_->owner->y() + sin(dir) * mag,
+                radius,
+                cos(dir),
+                sin(dir),
+                100
             );
-            ball->Dying(100);
-            ball->Frictionless();
-            ball->Push(sf::Vector2f(
-                cos(data_->owner->velocity_dir()) * data_->owner->velocity() * ball->mass(),
-                sin(data_->owner->velocity_dir()) * data_->owner->velocity() * ball->mass()
-            ));
-            ball->Push(sf::Vector2f(cos(dir) * ball->mass(), sin(dir) * ball->mass()));
             game.Spawn(ball);
         }
     }

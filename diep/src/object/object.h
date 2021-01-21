@@ -4,6 +4,8 @@
 
 #include <list>
 
+#include "../util/math.h"
+
 namespace diep
 {
 	namespace object
@@ -26,51 +28,51 @@ namespace diep
 			static const float kVelocityStep;
 
 		protected:
+			// basic
 			unsigned int id_;
 			float x_, y_;
 			float radius_;
 
-			float vel_ = 0.0f;
-			float vel_dir_ = 0.0f;
+			// physics
+			float vel_x_, vel_y_;
 			float mass_;
-			bool frictionless_ = false;
+
+			// game
 			bool should_remove_ = false;
 
+			// render
 			Shape shape_ = Shape::kCircle;
 			Type type_ = Type::kObject;
 			sf::Color color_ = sf::Color(0, 170, 255, 255);
 			sf::Color border_color_ = sf::Color(0, 100, 200, 255);
 
-			std::list<sf::Vector2f> forces_;
-
-			bool dying_ = false;
-			int dying_timer_ = 0;
-
 		public:
 			Object(unsigned int id, float x, float y, float radius)
-				: id_(id), x_(x), y_(y), radius_(radius)
+				: id_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0)
 			{
-				mass_ = 3.14159f * pow(radius, 2);
+				mass_ = math::PI * radius * radius;
 			}
 
+			// getters
 			unsigned int id() const { return id_; }
-			float X() const { return x_; }
-			float Y() const { return y_; }
+			float x() const { return x_; }
+			float y() const { return y_; }
 			float radius() const { return radius_; }
+			float vel_x() const { return vel_x_; }
+			float vel_y() const { return vel_y_; }
 			float mass() const { return mass_; }
 			Type type() const { return type_; }
 			Shape shape() const { return shape_; }
 			bool should_remove() const { return should_remove_; }
-			float velocity() const { return vel_; }
-			float velocity_dir() const { return vel_dir_; }
 
-			void Frictionless() { frictionless_ = true; }
-			void Push(const sf::Vector2f force) { forces_.push_back(force); }
-			void Dying(int time) { dying_ = true; dying_timer_ = time; }
+			// physics
+			void Push(float x, float y);
 
-			virtual bool OnScreen() const;
-
+			// update
 			virtual void Update();
+
+			// render
+			virtual bool OnScreen() const;
 			virtual void Render(sf::RenderWindow& window) const;
 		};
 	}

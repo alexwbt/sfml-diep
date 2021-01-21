@@ -80,9 +80,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\object\projectile.cpp" />
     <ClCompile Include="src\weapon\component.cpp" />
     <ClCompile Include="src\weapon\cannon.cpp" />
-    <ClCompile Include="src\collision.cpp" />
+    <ClCompile Include="src\util\collision.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\object\object.cpp" />
@@ -90,9 +91,11 @@
     <ClCompile Include="src\weapon\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\util\math.h" />
+    <ClInclude Include="src\object\projectile.h" />
     <ClInclude Include="src\weapon\cannon.h" />
     <ClInclude Include="src\weapon\component.h" />
-    <ClInclude Include="src\collision.h" />
+    <ClInclude Include="src\util\collision.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\object\object.h" />
     <ClInclude Include="src\object\tank.h" />

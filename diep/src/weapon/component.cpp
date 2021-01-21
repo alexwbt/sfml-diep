@@ -40,8 +40,8 @@ namespace diep
 				const float rad = atan2(vertices[i].y, vertices[i].x) + dir;
 				const float mag = sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
 				shape.setPoint(i, sf::Vector2f(
-					game.OnScreenX(data_->owner->X() + cos(rad) * data_->owner->radius() * mag),
-					game.OnScreenY(data_->owner->Y() + sin(rad) * data_->owner->radius() * mag)
+					game.OnScreenX(data_->owner->x() + cos(rad) * data_->owner->radius() * mag),
+					game.OnScreenY(data_->owner->y() + sin(rad) * data_->owner->radius() * mag)
 				));
 			}
 			window.draw(shape);
