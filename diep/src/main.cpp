@@ -35,6 +35,9 @@ int main()
 			case sf::Event::MouseWheelMoved:
 				game.Scale(game.Scale() + event.mouseWheel.delta);
 				break;
+			case sf::Event::KeyPressed:
+				game.KeyPressed(event.key.code);
+				break;
 			default: break;
 			}
 		}

@@ -32,8 +32,8 @@ namespace diep
 
 			vel_x_ *= 0.95f;
 			vel_y_ *= 0.95f;
-			if (abs(vel_x_) < kVelocityStep) vel_x_ = 0;
-			if (abs(vel_y_) < kVelocityStep) vel_y_ = 0;
+			if (abs(vel_x_) < 0.01f) vel_x_ = 0;
+			if (abs(vel_y_) < 0.01f) vel_y_ = 0;
 		}
 
 		void Tank::Render(sf::RenderWindow& window) const

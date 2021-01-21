@@ -7,22 +7,22 @@ namespace diep
 	{
 		void Component::Update()
 		{
-			if (reload_timer_ > 0 || (data_->firing && reload_timer_ > -delay_ * reload_speed_mod_))
+			if (reload_timer_ > 0 || (stat_->firing && reload_timer_ > -delay_ * reload_speed_mod_))
 			{
 				reload_timer_--;
 			}
-			else if (data_->firing)
+			else if (stat_->firing)
 			{
 				Fire();
-				reload_timer_ = (data_->reload_speed - delay_) * reload_speed_mod_;
+				reload_timer_ = (stat_->reload_speed - delay_) * reload_speed_mod_;
 			}
 		}
 
 		void Component::Render(sf::RenderWindow& window) const
 		{
 			const float dir = dir_ + dir_offset_;
-			const float reload_percent = 1 - reload_timer_ / (data_->reload_speed * reload_speed_mod_);
-			const float length = length_;// *(1 - recoil_percent_ + reload_percent * recoil_percent_);
+			const float reload_percent = 1 - reload_timer_ / (stat_->reload_speed * reload_speed_mod_);
+			const float length = length_ * (1 - recoil_percent_ + reload_percent * recoil_percent_);
 
 			sf::Vector2f vertices[4] = {
 				sf::Vector2f(x_offset_, y_offset_ - width_ / 2),
@@ -40,8 +40,8 @@ namespace diep
 				const float rad = atan2(vertices[i].y, vertices[i].x) + dir;
 				const float mag = sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
 				shape.setPoint(i, sf::Vector2f(
-					game.OnScreenX(data_->owner->x() + cos(rad) * data_->owner->radius() * mag),
-					game.OnScreenY(data_->owner->y() + sin(rad) * data_->owner->radius() * mag)
+					game.OnScreenX(stat_->owner->x() + cos(rad) * stat_->owner->radius() * mag),
+					game.OnScreenY(stat_->owner->y() + sin(rad) * stat_->owner->radius() * mag)
 				));
 			}
 			window.draw(shape);

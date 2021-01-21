@@ -3,6 +3,7 @@
 #include <list>
 
 #include "component.h"
+#include "weapon_status.h"
 
 namespace diep
 {
@@ -16,21 +17,21 @@ namespace diep
 		class Weapon
 		{
 		private:
-			static WeaponData* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon);
+			static WeaponStatus* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon);
 
 		private:
 			Type type_;
 
 			std::list<Component*> components_;
 
-			WeaponData* data_;
+			WeaponStatus* stat_;
 
 		public:
 			Weapon::Weapon(const object::Object* owner, Type type)
-				: type_(type), data_(CreateWeapon(owner, this)) {}
+				: type_(type), stat_(CreateWeapon(owner, this)) {}
 			~Weapon();
 
-			void Fire(bool fire) { data_->firing = fire; }
+			void Fire(bool fire) { stat_->firing = fire; }
 			void Turn(float dir);
 
 			void Update();

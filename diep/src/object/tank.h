@@ -20,7 +20,7 @@ namespace diep
 			weapon::Weapon weapon_;
 
 		public:
-			Tank(unsigned int id, float x, float y, float radius)
+			Tank(uint64_t id, float x, float y, float radius)
 				: Object(id, x, y, radius), weapon_(this, weapon::Type::kSingleConnon)
 			{
 				type_ = Type::kTank;

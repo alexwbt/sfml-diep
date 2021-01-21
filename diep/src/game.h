@@ -24,11 +24,13 @@ namespace diep
 		float scale_ = 3.0f;
 		float win_width_ = 0.0f, win_height_ = 0.0f;
 
-		unsigned int focus_id_ = 0;
-		unsigned int control_id_ = 0;
+		uint64_t focus_id_ = 0;
+		uint64_t control_id_ = 0;
 
 		std::list<object::Object*> objects_;
 		std::list<object::Object*> spawn_list_;
+
+		bool debug_ = false;
 
 	private:
 		Game()
@@ -59,6 +61,10 @@ namespace diep
 		float Game::OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
 
 		void Spawn(object::Object* obj);
-		unsigned int NextId() const { static unsigned int next_id = 1; return next_id++; };
+		uint64_t NextId() const { static uint64_t next_id = 1; return next_id++; };
+
+		void KeyPressed(int key);
+
+		bool debug() const { return debug_; }
 	};
 }

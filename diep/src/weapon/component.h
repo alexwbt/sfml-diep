@@ -3,22 +3,16 @@
 #include <SFML\Graphics.hpp>
 
 #include "../object/object.h"
+#include "weapon_status.h"
 
 namespace diep
 {
 	namespace weapon
 	{
-		struct WeaponData
-		{
-			const object::Object* owner;
-			bool firing = false;
-			float reload_speed = 30.0f;
-		};
-
 		class Component
 		{
 		protected:
-			const WeaponData* data_;
+			const WeaponStatus* stat_;
 
 			float reload_timer_ = 0.0f;
 			float reload_speed_mod_;
@@ -33,7 +27,7 @@ namespace diep
 
 		public:
 			Component(
-				WeaponData* data,
+				WeaponStatus* stat,
 				float length = 1.5f,
 				float width = 0.6f,
 				float dir_offset = 0.0f,
@@ -42,7 +36,7 @@ namespace diep
 				float reload_speed_mod = 1.0f,
 				float delay = 0.0f,
 				float recoil_percent = 0.1f
-			) : data_(data),
+			) : stat_(stat),
 				length_(length),
 				width_(width),
 				dir_offset_(dir_offset),

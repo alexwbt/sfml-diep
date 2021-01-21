@@ -11,7 +11,7 @@ namespace diep
 
 	void Game::Update(sf::RenderWindow& window)
 	{
-		objects_.splice(objects_.end(), spawn_list_);
+		objects_.splice(objects_.begin(), spawn_list_);
 		spawn_list_.clear();
 		objects_.remove_if([this, &window](object::Object* object)
 		{
@@ -78,6 +78,16 @@ namespace diep
 		for (object::Object* other : objects_)
 			if (obj->id() != other->id() && coll::collide(*obj, *other))
 				return;
-		spawn_list_.push_back(obj);
+		spawn_list_.push_front(obj);
+	}
+
+	void Game::KeyPressed(int key)
+	{
+		switch (key)
+		{
+		case sf::Keyboard::Key::F1:
+			debug_ = !debug_;
+			break;
+		}
 	}
 }

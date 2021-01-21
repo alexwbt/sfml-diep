@@ -5,19 +5,17 @@ namespace diep
 {
 	namespace weapon
 	{
-		WeaponData* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon)
+		WeaponStatus* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon)
 		{
-			WeaponData* data = new WeaponData;
-			data->owner = owner;
-
+			WeaponStatus* stat = new WeaponStatus;
+			stat->owner = owner;
 			switch (weapon->type_)
 			{
 			case Type::kSingleConnon:
-				weapon->components_.push_back(new Cannon(data));
+				weapon->components_.push_back(new Cannon(stat));
 				break;
 			}
-
-			return data;
+			return stat;
 		}
 
 		Weapon::~Weapon()
@@ -25,7 +23,7 @@ namespace diep
 			for (const Component* component : components_)
 				delete component;
 
-			delete data_;
+			delete stat_;
 		}
 
 		void Weapon::Turn(float dir)

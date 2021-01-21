@@ -71,5 +71,8 @@
     <ClInclude Include="src\util\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\weapon\weapon_status.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
