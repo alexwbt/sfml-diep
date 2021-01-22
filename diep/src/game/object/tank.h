@@ -1,8 +1,5 @@
 #pragma once
 
-#include "object.h"
-#include "../weapon/weapon.h"
-
 namespace diep
 {
 	namespace object
@@ -20,8 +17,8 @@ namespace diep
 			weapon::Weapon weapon_;
 
 		public:
-			Tank(uint64_t id, float x, float y, float radius)
-				: Object(id, x, y, radius), weapon_(this, weapon::Type::kSingleConnon)
+			Tank(Game& game, uint64_t id, float x, float y, float radius)
+				: Object(game, id, x, y, radius), weapon_(this, weapon::Type::kSingleConnon)
 			{
 				type_ = Type::kTank;
 			}

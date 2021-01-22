@@ -1,10 +1,11 @@
-#include "projectile.h"
+#include "../game.h"
 
 namespace diep
 {
     namespace object
     {
         Projectile::Projectile(
+            Game& game,
             uint64_t id,
             uint64_t team,
             float x,
@@ -13,7 +14,7 @@ namespace diep
             float vel_x,
             float vel_y,
             int lifetime
-        ) : Object(id, x, y, radius), lifetime_(lifetime)
+        ) : Object(game, id, x, y, radius), lifetime_(lifetime)
         {
             team_ = team;
             vel_x_ = vel_x;

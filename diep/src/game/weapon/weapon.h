@@ -1,10 +1,5 @@
 #pragma once
 
-#include <list>
-
-#include "component.h"
-#include "weapon_status.h"
-
 namespace diep
 {
 	namespace weapon

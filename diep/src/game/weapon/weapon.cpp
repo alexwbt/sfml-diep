@@ -1,5 +1,4 @@
-#include "weapon.h"
-#include "cannon.h"
+#include "../game.h"
 
 namespace diep
 {

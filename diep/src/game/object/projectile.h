@@ -1,5 +1,4 @@
 #pragma once
-#include "object.h"
 
 namespace diep
 {
@@ -12,6 +11,7 @@ namespace diep
 
         public:
             Projectile(
+                Game& game,
                 uint64_t id,
                 uint64_t team,
                 float x,

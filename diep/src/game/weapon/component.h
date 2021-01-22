@@ -1,10 +1,5 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
-
-#include "../object/object.h"
-#include "weapon_status.h"
-
 namespace diep
 {
 	namespace weapon

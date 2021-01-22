@@ -1,4 +1,4 @@
-#include "collision.h"
+#include "../game.h"
 
 namespace diep
 {

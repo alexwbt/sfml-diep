@@ -1,4 +1,3 @@
-#include "component.h"
 #include "../game.h"
 
 namespace diep
@@ -31,17 +30,16 @@ namespace diep
 				sf::Vector2f(x_offset_, y_offset_ + width_ / 2)
 			};
 
-			const Game& game = Game::Instance();
 			sf::ConvexShape shape(4);
 			shape.setFillColor(sf::Color(150, 150, 150, 255));
 			shape.setOutlineColor(sf::Color(100, 100, 100, 255));
-			shape.setOutlineThickness(game.Scale());
+			shape.setOutlineThickness(stat_->owner->game.Scale());
 			for (int i = 0; i < 4; i++) {
 				const float rad = atan2(vertices[i].y, vertices[i].x) + dir;
 				const float mag = sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
 				shape.setPoint(i, sf::Vector2f(
-					game.OnScreenX(stat_->owner->x() + cos(rad) * stat_->owner->radius() * mag),
-					game.OnScreenY(stat_->owner->y() + sin(rad) * stat_->owner->radius() * mag)
+					stat_->owner->game.OnScreenX(stat_->owner->x() + cos(rad) * stat_->owner->radius() * mag),
+					stat_->owner->game.OnScreenY(stat_->owner->y() + sin(rad) * stat_->owner->radius() * mag)
 				));
 			}
 			window.draw(shape);

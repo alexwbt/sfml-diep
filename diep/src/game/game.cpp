@@ -1,5 +1,4 @@
 #include "game.h"
-#include "util/collision.h"
 
 namespace diep
 {
@@ -75,9 +74,6 @@ namespace diep
 
 	void Game::Spawn(object::Object* obj)
 	{
-		for (object::Object* other : objects_)
-			if (obj->id() != other->id() && coll::collide(*obj, *other))
-				return;
 		spawn_list_.push_front(obj);
 	}
 

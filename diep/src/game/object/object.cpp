@@ -1,6 +1,4 @@
-#include "object.h"
 #include "../game.h"
-#include "../util/collision.h"
 
 namespace diep
 {
@@ -14,8 +12,6 @@ namespace diep
 
 		void Object::Update()
 		{
-			const Game& game = Game::Instance();
-
 			x_ += vel_x_;
 			y_ += vel_y_;
 			for (Object* obj : game.Objects())
@@ -39,7 +35,6 @@ namespace diep
 
 		void Object::Render(sf::RenderWindow& window) const
 		{
-			const Game& game = Game::Instance();
 			float radius = radius_ * game.Scale();
 			float screen_x = game.OnScreenX(x_);
 			float screen_y = game.OnScreenY(y_);

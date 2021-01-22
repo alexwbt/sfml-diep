@@ -1,11 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
-#include <list>
-
-#include "../util/math.h"
-
 namespace diep
 {
 	namespace object
@@ -23,6 +17,9 @@ namespace diep
 
 		class Object
 		{
+		public:
+			Game& game;
+
 		protected:
 			// basic
 			uint64_t id_;
@@ -46,8 +43,8 @@ namespace diep
 			bool render_health_ = true;
 
 		public:
-			Object(uint64_t id, float x, float y, float radius)
-				: id_(id), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
+			Object(Game& game, uint64_t id, float x, float y, float radius)
+				: game(game), id_(id), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
 				health_(100), max_health_(100)
 			{}
 

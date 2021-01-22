@@ -1,16 +1,27 @@
-#include <SFML/Graphics.hpp>
 #include <chrono>
 
-#include "game.h"
+#include "game/game.h"
 
 int main()
 {
 	using namespace std::chrono;
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
 
-	diep::Game& game = diep::Game::Instance();
+	diep::Game game;
 	game.SetWindowSize(window.getSize());
 
+	// spawn objects
+	auto player_id = game.NextId();
+	game.Spawn(new diep::object::Tank(game, player_id, 0, 0, 10));
+	game.SetFocus(player_id);
+	game.SetControl(player_id);
+
+	diep::object::Tank* tank = new diep::object::Tank(game, game.NextId(), 300, 0, 30);
+	bool ctrls[diep::object::Tank::kControlListSize] = { false, true, false, false, false };
+	tank->SetControls(ctrls);
+	game.Spawn(tank);
+
+	// game loop
 	auto start_time = high_resolution_clock::now();
 	double delta_time = 0.0;
 	constexpr double time_step = 1000000000.0 / 60.0;

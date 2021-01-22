@@ -1,4 +1,4 @@
-#include "tank.h"
+#include "../game.h"
 
 namespace diep
 {
