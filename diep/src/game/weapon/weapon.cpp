@@ -37,10 +37,10 @@ namespace diep
 				component->Update();
 		}
 
-		void Weapon::Render(sf::RenderWindow& window) const
+		void Weapon::Render(sf::RenderTarget& target) const
 		{
 			for (Component* component : components_)
-				component->Render(window);
+				component->Render(target);
 		}
 	}
 }

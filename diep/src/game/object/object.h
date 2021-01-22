@@ -31,10 +31,12 @@ namespace diep
 
 			// game
 			uint64_t team_;
-			int health_, max_health_;
+			uint32_t health_, max_health_;
+			uint32_t body_damage_;
 			bool should_remove_ = false;
 
 			// render
+			uint8_t opacity_ = 255;
 			Shape shape_ = Shape::kCircle;
 			Type type_ = Type::kObject;
 			sf::Color color_ = sf::Color(0, 170, 255, 255);
@@ -45,7 +47,7 @@ namespace diep
 		public:
 			Object(Game& game, uint64_t id, float x, float y, float radius)
 				: game(game), id_(id), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
-				health_(100), max_health_(100)
+				health_(100), max_health_(100), body_damage_(10)
 			{}
 
 			// getters
@@ -68,7 +70,7 @@ namespace diep
 
 			// render
 			virtual bool OnScreen() const;
-			virtual void Render(sf::RenderWindow& window) const;
+			virtual void Render(sf::RenderTarget& target) const;
 		};
 	}
 }

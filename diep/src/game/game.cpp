@@ -8,7 +8,7 @@ namespace diep
 			delete object;
 	}
 
-	void Game::Update(sf::RenderWindow& window)
+	void Game::Update(sf::Window& window)
 	{
 		objects_.splice(objects_.begin(), spawn_list_);
 		spawn_list_.clear();
@@ -42,7 +42,7 @@ namespace diep
 		});
 	}
 
-	void Game::Render(sf::RenderWindow& window) const
+	void Game::Render(sf::RenderTarget& target) const
 	{
 		const float grid_size = grid_size_ * scale_;
 		const float grid_line_width = grid_line_width_ * scale_;
@@ -52,18 +52,18 @@ namespace diep
 			sf::RectangleShape line(sf::Vector2f(grid_line_width, win_height_));
 			line.setPosition(x, -grid_line_width / 2.0f);
 			line.setFillColor(sf::Color(200, 200, 200, 255));
-			window.draw(line);
+			target.draw(line);
 		}
 		for (float y = fmod(OnScreenY(0), grid_size); y < win_height_; y += grid_size)
 		{
 			sf::RectangleShape line(sf::Vector2f(win_width_, grid_line_width));
 			line.setPosition(-grid_line_width / 2.0f, y);
 			line.setFillColor(sf::Color(200, 200, 200, 255));
-			window.draw(line);
+			target.draw(line);
 		}
 
 		for (const object::Object* object : objects_)
-			object->Render(window);
+			object->Render(target);
 	}
 
 	void Game::SetWindowSize(const sf::Vector2u& size)

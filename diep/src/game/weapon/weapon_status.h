@@ -10,7 +10,7 @@ namespace diep
 			bool firing = false;
 			float reload_speed = 30.0f;
 			float bullet_speed = 2.0f;
-			int bullet_lifetime = 100;
+			uint32_t bullet_lifetime = 100;
 		};
     }
 }

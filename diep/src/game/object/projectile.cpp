@@ -13,7 +13,7 @@ namespace diep
             float radius,
             float vel_x,
             float vel_y,
-            int lifetime
+            uint32_t lifetime
         ) : Object(game, id, x, y, radius), lifetime_(lifetime)
         {
             team_ = team;

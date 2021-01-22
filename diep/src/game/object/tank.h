@@ -27,7 +27,7 @@ namespace diep
 			void Turn(float dir) { weapon_.Turn(dir); }
 
 			void Update() override;
-			void Render(sf::RenderWindow& window) const override;
+			void Render(sf::RenderTarget& target) const override;
 		};
 	}
 }

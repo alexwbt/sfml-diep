@@ -17,7 +17,7 @@ namespace diep
 			}
 		}
 
-		void Component::Render(sf::RenderWindow& window) const
+		void Component::Render(sf::RenderTarget& target) const
 		{
 			const float dir = dir_ + dir_offset_;
 			const float reload_percent = 1 - reload_timer_ / (stat_->reload_speed * reload_speed_mod_);
@@ -42,7 +42,7 @@ namespace diep
 					stat_->owner->game.OnScreenY(stat_->owner->y() + sin(rad) * stat_->owner->radius() * mag)
 				));
 			}
-			window.draw(shape);
+			target.draw(shape);
 		}
 	}
 }

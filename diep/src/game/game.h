@@ -33,8 +33,8 @@ namespace diep
 	public:
 		~Game();
 
-		void Update(sf::RenderWindow& window);
-		void Render(sf::RenderWindow& window) const;
+		void Update(sf::Window& window);
+		void Render(sf::RenderTarget& target) const;
 
 		void KeyPressed(int key);
 

@@ -30,7 +30,7 @@ namespace diep
 			void Turn(float dir);
 
 			void Update();
-			void Render(sf::RenderWindow& window) const;
+			void Render(sf::RenderTarget& target) const;
 		};
 	}
 }

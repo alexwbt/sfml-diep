@@ -7,7 +7,7 @@ namespace diep
         class Projectile : public Object
         {
         private:
-            int lifetime_;
+            uint32_t lifetime_;
 
         public:
             Projectile(
@@ -19,7 +19,7 @@ namespace diep
                 float radius,
                 float vel_x,
                 float vel_y,
-                int lifetime
+                uint32_t lifetime
             );
 
             void Update() override;

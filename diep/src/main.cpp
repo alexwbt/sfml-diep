@@ -1,11 +1,54 @@
 #include <chrono>
+#include <iostream>
+
+//#include <SFML/Network.hpp>
 
 #include "game/game.h"
+
+//int main()
+//{
+//	sf::UdpSocket socket;
+//	uint16_t port = 34437;
+//	if (socket.bind(port) != sf::Socket::Done)
+//	{
+//		std::cout << "Failed to bind port " << std::endl;
+//		exit(1);
+//	}
+//
+//	sf::Packet packet;
+//	std::string message = "Hello World";
+//	packet << message;
+//
+//	socket.send(packet, sf::IpAddress::Broadcast, port + 1);
+//}
+
+//int main()
+//{
+//	sf::UdpSocket socket;
+//	uint16_t port = 34437;
+//	if (socket.bind(port) != sf::Socket::Done)
+//	{
+//		std::cout << "Failed to bind port " << std::endl;
+//		exit(1);
+//	}
+//
+//	sf::Packet packet;
+//	auto addr = sf::IpAddress::Any;
+//	uint16_t res_port = 34437;
+//	socket.receive(packet, addr, res_port);
+//	
+//	std::string message;
+//	packet >> message;
+//
+//	std::cout << "Received: " << message << std::endl;
+//
+//	system("pause");
+//}
 
 int main()
 {
 	using namespace std::chrono;
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
+	sf::RenderWindow window(sf::VideoMode(1000, 700), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
 
 	diep::Game game;
 	game.SetWindowSize(window.getSize());
@@ -16,7 +59,7 @@ int main()
 	game.SetFocus(player_id);
 	game.SetControl(player_id);
 
-	diep::object::Tank* tank = new diep::object::Tank(game, game.NextId(), 300, 0, 30);
+	diep::object::Tank* tank = new diep::object::Tank(game, game.NextId(), 300, 0, 10);
 	bool ctrls[diep::object::Tank::kControlListSize] = { false, true, false, false, false };
 	tank->SetControls(ctrls);
 	game.Spawn(tank);
@@ -57,7 +100,7 @@ int main()
 		delta_time += (double)duration_cast<nanoseconds>(now - start_time).count() / time_step;
 		start_time = now;
 
-		bool should_update = delta_time > 1;
+		bool should_update = delta_time >= 1;
 		while (delta_time >= 1)
 		{
 			game.Update(window);

@@ -36,10 +36,10 @@ namespace diep
 			if (abs(vel_y_) < 0.01f) vel_y_ = 0;
 		}
 
-		void Tank::Render(sf::RenderWindow& window) const
+		void Tank::Render(sf::RenderTarget& target) const
 		{
-			weapon_.Render(window);
-			Object::Render(window);
+			weapon_.Render(target);
+			Object::Render(target);
 		}
 	}
 }

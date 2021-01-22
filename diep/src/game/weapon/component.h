@@ -45,7 +45,7 @@ namespace diep
 			virtual void Turn(float dir) { dir_ = dir; }
 
 			virtual void Update();
-			virtual void Render(sf::RenderWindow& window) const;
+			virtual void Render(sf::RenderTarget& window) const;
 		};
 	}
 }
