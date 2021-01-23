@@ -19,6 +19,7 @@ namespace diep
             team_ = team;
             vel_x_ = vel_x;
             vel_y_ = vel_y;
+            render_health_ = false;
         }
 
         void Projectile::Update()

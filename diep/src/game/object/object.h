@@ -61,6 +61,7 @@ namespace diep
 			bool should_remove() const { return should_remove_; }
 			Type type() const { return type_; }
 			Shape shape() const { return shape_; }
+			uint8_t opacity() const { return opacity_; }
 
 			// physics
 			void Push(float x, float y);

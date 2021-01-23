@@ -47,33 +47,15 @@ namespace diep
 			float screen_y = game.OnScreenY(y_);
 
 			sf::CircleShape border(radius, 100);
+			border.setPosition(sf::Vector2f(screen_x - radius, screen_y - radius));
 			border.setFillColor(border_color_);
+			target.draw(border);
 
 			float body_radius = radius - game.Scale();
 			sf::CircleShape body(body_radius, 100);
 			body.setFillColor(color_);
-
-			if (opacity_ == 255)
-			{
-				border.setPosition(sf::Vector2f(screen_x - radius, screen_y - radius));
-				body.setPosition(sf::Vector2f(screen_x - body_radius, screen_y - body_radius));
-				target.draw(border);
-				target.draw(body);
-			}
-			else
-			{
-				sf::RenderTexture texture;
-				unsigned int size = int(radius * 2);
-				texture.create(size, size);
-				texture.draw(border);
-				body.setPosition(sf::Vector2f(game.Scale(), game.Scale()));
-				texture.draw(body);
-
-				sf::Sprite sprite(texture.getTexture());
-				sprite.setPosition(sf::Vector2f(screen_x - radius, screen_y - radius));
-				sprite.setColor(sf::Color(255, 255, 255, opacity_));
-				target.draw(sprite);
-			}
+			body.setPosition(sf::Vector2f(screen_x - body_radius, screen_y - body_radius));
+			target.draw(body);
 
 			// render health
 			if (render_health_ && health_ < max_health_ && opacity_ == 255)

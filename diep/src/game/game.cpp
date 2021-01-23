@@ -62,8 +62,25 @@ namespace diep
 			target.draw(line);
 		}
 
+		sf::RenderTexture texture;
+		texture.setSmooth(true);
+		texture.create(win_width_, win_height_);
+
 		for (const object::Object* object : objects_)
-			object->Render(target);
+		{
+			if (object->opacity() == 255)
+				object->Render(target);
+			else
+			{
+				texture.clear(sf::Color(0, 0, 0, 0));
+				object->Render(texture);
+
+				sf::Sprite sprite(texture.getTexture());
+				sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -win_height_));
+				sprite.setColor(sf::Color(255, 255, 255, object->opacity()));
+				target.draw(sprite);
+			}
+		}
 	}
 
 	void Game::SetWindowSize(const sf::Vector2u& size)
