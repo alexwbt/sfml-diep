@@ -4,6 +4,16 @@ namespace diep
 {
 	namespace object
 	{
+		void Object::SetData(sf::Packet& data)
+		{
+			
+		}
+
+		void Object::GetData(sf::Packet& data)
+		{
+
+		}
+
 		void Object::Push(float x, float y)
 		{
 			vel_x_ += x;

@@ -6,23 +6,26 @@ namespace diep
     {
         void Cannon::Fire()
         {
-            const float x = (x_offset_ + length_) * stat_->owner->radius();
-            const float y = y_offset_ * stat_->owner->radius();
-            const float dir = dir_ + dir_offset_;
-            const float mag = sqrt(x * x + y * y);
-            const float radius = stat_->owner->radius() * width_ / 2.0f;
+            float x = (x_offset_ + length_) * weapon_.owner()->radius();
+            float y = y_offset_ * weapon_.owner()->radius();
+            float dir = dir_ + dir_offset_;
+            float mag = sqrt(x * x + y * y);
+            float radius = weapon_.owner()->radius() * width_ / 2.0f;
+            float vel_x = cos(dir)* weapon_.bullet_speed();
+            float vel_y = sin(dir)* weapon_.bullet_speed();
             auto ball = new object::Projectile(
-                stat_->owner->game,
-                stat_->owner->game.NextId(),
-                stat_->owner->team(),
-                stat_->owner->x() + cos(dir) * mag,
-                stat_->owner->y() + sin(dir) * mag,
+                weapon_.owner()->game,
+                weapon_.owner()->game.NextId(),
+                weapon_.owner()->team(),
+                weapon_.owner()->x() + cos(dir) * mag,
+                weapon_.owner()->y() + sin(dir) * mag,
                 radius,
-                cos(dir) * stat_->bullet_speed,
-                sin(dir) * stat_->bullet_speed,
-                stat_->bullet_lifetime
+                vel_x + weapon_.owner()->vel_x(),
+                vel_y + weapon_.owner()->vel_y(),
+                weapon_.bullet_lifetime()
             );
-            stat_->owner->game.Spawn(ball);
+            weapon_.owner()->game.Spawn(ball);
+            weapon_.owner()->Push(-vel_x, -vel_y);
         }
     }
 }

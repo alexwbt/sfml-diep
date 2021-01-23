@@ -15,7 +15,7 @@ namespace diep
 			kTank
 		};
 
-		class Object
+		class Object : public GameData
 		{
 		public:
 			Game& game;
@@ -49,6 +49,10 @@ namespace diep
 				: game(game), id_(id), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
 				health_(100), max_health_(100), body_damage_(10)
 			{}
+
+			// data
+			void SetData(sf::Packet& data) override;
+			void GetData(sf::Packet& data) override;
 
 			// getters
 			uint64_t id() const { return id_; }

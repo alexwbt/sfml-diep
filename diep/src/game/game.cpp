@@ -12,6 +12,16 @@ namespace diep
 			delete object;
 	}
 
+	void Game::SetData(sf::Packet& data)
+	{
+		
+	}
+
+	void Game::GetData(sf::Packet& data)
+	{
+
+	}
+
 	void Game::Update(sf::Window& window)
 	{
 		particles_.remove_if([](object::Object* object)

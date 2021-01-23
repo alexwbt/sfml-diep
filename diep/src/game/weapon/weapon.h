@@ -12,21 +12,29 @@ namespace diep
 		class Weapon
 		{
 		private:
-			static WeaponStatus* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon);
-
-		private:
 			Type type_;
 
-			std::list<Component*> components_;
+			object::Object* owner_;
+			bool firing_ = false;
+			float reload_speed_ = 30.0f;
+			float bullet_speed_ = 2.0f;
+			uint32_t bullet_lifetime_ = 100;
 
-			WeaponStatus* stat_;
+			uint8_t component_count_;
+			Component** components_;
 
 		public:
-			Weapon::Weapon(const object::Object* owner, Type type)
-				: type_(type), stat_(CreateWeapon(owner, this)) {}
+			Weapon(object::Object* owner, Type type);
 			~Weapon();
 
-			void Fire(bool fire) { stat_->firing = fire; }
+			// getter
+			object::Object* owner() const { return owner_; }
+			bool firing() const { return firing_; }
+			float reload_speed() const { return reload_speed_; }
+			float bullet_speed() const { return bullet_speed_; }
+			uint32_t bullet_lifetime() const { return bullet_lifetime_; }
+
+			void Fire(bool fire) { firing_ = fire; }
 			void Turn(float dir);
 
 			void Update();

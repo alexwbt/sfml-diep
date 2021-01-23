@@ -4,43 +4,41 @@ namespace diep
 {
 	namespace weapon
 	{
-		WeaponStatus* Weapon::CreateWeapon(const object::Object* owner, Weapon* weapon)
+		Weapon::Weapon(object::Object* owner, Type type)
+			: owner_(owner), type_(type), component_count_(0), components_(nullptr)
 		{
-			WeaponStatus* stat = new WeaponStatus;
-			stat->owner = owner;
-			switch (weapon->type_)
+			switch (type)
 			{
 			case Type::kSingleConnon:
-				weapon->components_.push_back(new Cannon(stat));
+				component_count_ = 1;
+				components_ = new Component*[component_count_];
+				components_[0] = new Cannon(*this);
 				break;
 			}
-			return stat;
 		}
 
 		Weapon::~Weapon()
 		{
-			for (const Component* component : components_)
-				delete component;
-
-			delete stat_;
+			for (int i = 0; i < component_count_; i++)
+				delete components_[i];
 		}
 
 		void Weapon::Turn(float dir)
 		{
-			for (Component* component : components_)
-				component->Turn(dir);
+			for (int i = 0; i < component_count_; i++)
+				components_[i]->Turn(dir);
 		}
 
 		void Weapon::Update()
 		{
-			for (Component* component : components_)
-				component->Update();
+			for (int i = 0; i < component_count_; i++)
+				components_[i]->Update();
 		}
 
 		void Weapon::Render(sf::RenderTarget& target) const
 		{
-			for (Component* component : components_)
-				component->Render(target);
+			for (int i = 0; i < component_count_; i++)
+				components_[i]->Render(target);
 		}
 	}
 }

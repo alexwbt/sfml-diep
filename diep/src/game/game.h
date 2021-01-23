@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 #include <list>
 #include <algorithm>
@@ -12,7 +13,13 @@ namespace diep
 		class Object;
 	};
 
-	class Game
+	struct GameData
+	{
+		virtual void SetData(sf::Packet& data) = 0;
+		virtual void GetData(sf::Packet& data) = 0;
+	};
+
+	class Game : public GameData
 	{
 	private:
 		float grid_size_ = 50.0f;
@@ -34,6 +41,9 @@ namespace diep
 
 	public:
 		~Game();
+
+		void SetData(sf::Packet& data) override;
+		void GetData(sf::Packet& data) override;
 
 		void Update(sf::Window& window);
 		void Render(sf::RenderTarget& target) const;
@@ -61,7 +71,6 @@ namespace diep
 
 #include "util/math.h"
 
-#include "weapon/weapon_status.h"
 #include "weapon/component.h"
 #include "weapon/weapon.h"
 #include "weapon/cannon.h"
