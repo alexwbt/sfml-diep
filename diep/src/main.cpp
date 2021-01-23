@@ -48,7 +48,7 @@
 int main()
 {
 	using namespace std::chrono;
-	sf::RenderWindow window(sf::VideoMode(1000, 700), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10, 1, 1));
+	sf::RenderWindow window(sf::VideoMode(1000, 700), "Diep", sf::Style::Default, sf::ContextSettings(0, 0, 10));
 
 	diep::Game game;
 	game.SetWindowSize(window.getSize());

@@ -4,12 +4,27 @@ namespace diep
 {
 	Game::~Game()
 	{
-		for (const object::Object* object : objects_)
+		for (auto object : objects_)
+			delete object;
+		for (auto object : spawn_list_)
+			delete object;
+		for (auto object : particles_)
 			delete object;
 	}
 
 	void Game::Update(sf::Window& window)
 	{
+		particles_.remove_if([](object::Object* object)
+		{
+			object->Update();
+			if (object->opacity() <= 0)
+			{
+				delete object;
+				return true;
+			}
+			return false;
+		});
+
 		objects_.splice(objects_.begin(), spawn_list_);
 		spawn_list_.clear();
 		objects_.remove_if([this, &window](object::Object* object)
@@ -28,7 +43,7 @@ namespace diep
 				tank->SetControls(controls);
 
 				sf::Vector2i mouse = sf::Mouse::getPosition(window);
-				float dir = atan2(mouse.y - win_height_ / 2, mouse.x - win_width_ / 2);
+				float dir = atan2f(mouse.y - win_height_ / 2.0f, mouse.x - win_width_ / 2.0f);
 				tank->Turn(dir);
 			}
 			object->Update();
@@ -38,7 +53,12 @@ namespace diep
 				cam_y_ = object->y();
 			}
 
-			return object->should_remove();
+			if (object->dead())
+			{
+				particles_.push_back(object);
+				return true;
+			}
+			return false;
 		});
 	}
 
@@ -49,44 +69,48 @@ namespace diep
 
 		for (float x = fmod(OnScreenX(0), grid_size); x < win_width_; x += grid_size)
 		{
-			sf::RectangleShape line(sf::Vector2f(grid_line_width, win_height_));
+			sf::RectangleShape line(sf::Vector2f(grid_line_width, (float)win_height_));
 			line.setPosition(x, -grid_line_width / 2.0f);
 			line.setFillColor(sf::Color(200, 200, 200, 255));
 			target.draw(line);
 		}
-		for (float y = fmod(OnScreenY(0), grid_size); y < win_height_; y += grid_size)
+		for (float y = fmod(OnScreenY(0), grid_size); y < (float)win_height_; y += grid_size)
 		{
-			sf::RectangleShape line(sf::Vector2f(win_width_, grid_line_width));
+			sf::RectangleShape line(sf::Vector2f((float)win_width_, grid_line_width));
 			line.setPosition(-grid_line_width / 2.0f, y);
 			line.setFillColor(sf::Color(200, 200, 200, 255));
 			target.draw(line);
 		}
 
 		sf::RenderTexture texture;
-		texture.setSmooth(true);
 		texture.create(win_width_, win_height_);
 
-		for (const object::Object* object : objects_)
+		auto render_obj = [&](object::Object* obj)
 		{
-			if (object->opacity() == 255)
-				object->Render(target);
+			if (obj->opacity() == 255)
+				obj->Render(target);
 			else
 			{
 				texture.clear(sf::Color(0, 0, 0, 0));
-				object->Render(texture);
+				obj->Render(texture);
 
 				sf::Sprite sprite(texture.getTexture());
-				sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -win_height_));
-				sprite.setColor(sf::Color(255, 255, 255, object->opacity()));
+				sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -(int)win_height_));
+				sprite.setColor(sf::Color(255, 255, 255, obj->opacity()));
 				target.draw(sprite);
 			}
-		}
+		};
+
+		for (auto obj : objects_)
+			render_obj(obj);
+		for (auto par : particles_)
+			render_obj(par);
 	}
 
 	void Game::SetWindowSize(const sf::Vector2u& size)
 	{
-		win_width_ = (float)size.x;
-		win_height_ = (float)size.y;
+		win_width_ = size.x;
+		win_height_ = size.y;
 	}
 
 	void Game::Spawn(object::Object* obj)

@@ -14,6 +14,13 @@ namespace diep
 		{
 			x_ += vel_x_;
 			y_ += vel_y_;
+
+			if (dead_)
+			{
+				opacity_ = std::max(opacity_ - 10, 0);
+				return;
+			}
+
 			for (Object* obj : game.Objects())
 			{
 				if (obj->id_ != id_ &&
@@ -21,6 +28,7 @@ namespace diep
 					coll::collide(*this, *obj))
 				{
 					health_ -= obj->body_damage_;
+					opacity_ = 150;
 					float dir = atan2(y_ - obj->y_, x_ - obj->x_);
 					Push(cos(dir), sin(dir));
 					break;
@@ -28,10 +36,8 @@ namespace diep
 			}
 
 			if (health_ <= 0)
-				should_remove_ = true;
-
-			if (id_ == 1)
-			opacity_--;
+				dead_ = true;
+			else opacity_ = std::min(opacity_ + 10, 255);
 		}
 
 		bool Object::OnScreen() const
@@ -58,7 +64,7 @@ namespace diep
 			target.draw(body);
 
 			// render health
-			if (render_health_ && health_ < max_health_ && opacity_ == 255)
+			if (render_health_ && health_ < max_health_ && !dead_)
 			{
 				sf::RectangleShape max_health_bar(sf::Vector2f(radius * 2.0f, 8));
 				max_health_bar.setPosition(screen_x - radius, screen_y + radius * 1.2f);

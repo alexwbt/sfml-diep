@@ -33,7 +33,7 @@ namespace diep
 			uint64_t team_;
 			uint32_t health_, max_health_;
 			uint32_t body_damage_;
-			bool should_remove_ = false;
+			bool dead_ = false;
 
 			// render
 			uint8_t opacity_ = 255;
@@ -58,7 +58,7 @@ namespace diep
 			float vel_x() const { return vel_x_; }
 			float vel_y() const { return vel_y_; }
 			uint64_t team() const { return team_; }
-			bool should_remove() const { return should_remove_; }
+			bool dead() const { return dead_; }
 			Type type() const { return type_; }
 			Shape shape() const { return shape_; }
 			uint8_t opacity() const { return opacity_; }

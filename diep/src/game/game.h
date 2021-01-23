@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <list>
+#include <algorithm>
 
 namespace diep
 {
@@ -19,7 +20,7 @@ namespace diep
 
 		float cam_x_ = 0.0f, cam_y_ = 0.0f;
 		float scale_ = 3.0f;
-		float win_width_ = 0.0f, win_height_ = 0.0f;
+		uint32_t win_width_ = 0, win_height_ = 0;
 
 		uint64_t focus_id_ = 0;
 		uint64_t control_id_ = 0;
@@ -27,6 +28,7 @@ namespace diep
 		uint64_t next_id_ = 1;
 		std::list<object::Object*> objects_;
 		std::list<object::Object*> spawn_list_;
+		std::list<object::Object*> particles_;
 
 		bool debug_ = false;
 

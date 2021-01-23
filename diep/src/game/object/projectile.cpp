@@ -27,7 +27,7 @@ namespace diep
             Object::Update();
 
             if (--lifetime_ <= 0)
-                should_remove_ = true;
+                dead_ = true;
         }
     }
 }
