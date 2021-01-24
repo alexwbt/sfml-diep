@@ -6,7 +6,8 @@ namespace diep
 	{
 		enum class Type
 		{
-			kSingleConnon
+			kSingleConnon,
+			kTwinCannon
 		};
 
 		class Weapon

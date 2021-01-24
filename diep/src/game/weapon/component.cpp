@@ -6,14 +6,14 @@ namespace diep
     {
         void Component::Update()
         {
-            if (reload_timer_ > 0 || (weapon_.firing() && reload_timer_ > -delay_ * reload_speed_mod_))
+            if (reload_timer_ > 0 || (weapon_.firing() && reload_timer_ > -delay_ * weapon_.reload_speed() * reload_speed_mod_))
             {
                 reload_timer_--;
             }
             else if (weapon_.firing())
             {
                 Fire();
-                reload_timer_ = (weapon_.reload_speed() - delay_) * reload_speed_mod_;
+                reload_timer_ = (weapon_.reload_speed() - delay_ * weapon_.reload_speed()) * reload_speed_mod_;
             }
         }
 
@@ -31,6 +31,7 @@ namespace diep
             };
 
             sf::ConvexShape shape(4);
+
             shape.setFillColor(sf::Color(150, 150, 150, 255));
             shape.setOutlineColor(sf::Color(100, 100, 100, 255));
             shape.setOutlineThickness(weapon_.owner()->game.Scale());

@@ -18,7 +18,7 @@ namespace diep
 
 		public:
 			Tank(Game& game, uint64_t id, float x, float y, float radius)
-				: Object(game, id, x, y, radius), weapon_(this, weapon::Type::kSingleConnon)
+				: Object(game, id, x, y, radius), weapon_(this, weapon::Type::kTwinCannon)
 			{
 				type_ = Type::kTank;
 			}
