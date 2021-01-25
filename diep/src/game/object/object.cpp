@@ -14,6 +14,12 @@ namespace diep
 
 		}
 
+		void Object::SetColor(const sf::Color color, const sf::Color border_color)
+		{
+			color_ = color;
+			border_color_ = border_color;
+		}
+
 		void Object::Push(float x, float y)
 		{
 			vel_x_ += x;
@@ -62,15 +68,19 @@ namespace diep
 			float screen_x = game.OnScreenX(x_);
 			float screen_y = game.OnScreenY(y_);
 
-			sf::CircleShape border(radius, 100);
-			border.setPosition(sf::Vector2f(screen_x - radius, screen_y - radius));
+			sf::CircleShape border(radius, points_);
+			border.setPosition(sf::Vector2f(screen_x, screen_y));
 			border.setFillColor(border_color_);
+			border.setOrigin(radius, radius);
+			border.setRotation(rotate_);
 			target.draw(border);
 
 			float body_radius = radius - game.Scale();
-			sf::CircleShape body(body_radius, 100);
+			sf::CircleShape body(body_radius, points_);
+			body.setPosition(sf::Vector2f(screen_x, screen_y));
+			body.setOrigin(body_radius, body_radius);
+			body.setRotation(rotate_);
 			body.setFillColor(color_);
-			body.setPosition(sf::Vector2f(screen_x - body_radius, screen_y - body_radius));
 			target.draw(body);
 
 			// render health

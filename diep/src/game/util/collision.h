@@ -6,6 +6,8 @@ namespace diep
 	{
 		bool collide(const object::Object& obj1, const object::Object& obj2);
 
-		bool circleVsCircle(const object::Object& obj1, const object::Object& obj2);
+		bool circle_vs_circle(const object::Object& obj1, const object::Object& obj2);
+		bool polygon_vs_polygon(const object::Object& obj1, const object::Object& obj2);
+		bool circle_vs_polygon(const object::Object& obj1, const object::Object& obj2);
 	}
 }

@@ -64,6 +64,17 @@ int main()
 	tank->SetControls(ctrls);
 	game.Spawn(tank);
 
+	srand((unsigned int)time(0));
+	for (int i = 0; i < 50; i++)
+	{
+		float x = rand() % 1000 - 500.0f;
+		float y = rand() % 1000 - 500.0f;
+		float r = rand() % 50 + 10.0f;
+		uint8_t p = rand() % 3 + 3;
+		auto obj = new diep::object::Object(game, game.NextId(), x, y, r, p);
+		game.Spawn(obj);
+	}
+
 	// game loop
 	auto start_time = high_resolution_clock::now();
 	double delta_time = 0.0;
