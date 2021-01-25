@@ -13,7 +13,8 @@ namespace diep
 		enum class Type
 		{
 			kObject,
-			kTank
+			kTank,
+			kProjectile
 		};
 
 		class Object : public GameData
@@ -30,8 +31,10 @@ namespace diep
 
 			// physics
 			float vel_x_, vel_y_;
+			bool friction_ = true;
 
 			// game
+			Type type_;
 			uint64_t team_;
 			uint32_t health_, max_health_;
 			uint32_t body_damage_;
@@ -41,7 +44,6 @@ namespace diep
 			uint8_t points_ = 100;
 			uint8_t opacity_ = 255;
 			Shape shape_ = Shape::kCircle;
-			Type type_ = Type::kObject;
 			sf::Color color_ = sf::Color(0, 170, 255, 255);
 			sf::Color border_color_ = sf::Color(0, 100, 200, 255);
 
@@ -49,14 +51,14 @@ namespace diep
 
 		public:
 			Object(Game& game, uint64_t id, float x, float y, float radius)
-				: game(game), id_(id), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
+				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
 				rotate_(0), health_(100), max_health_(100), body_damage_(10)
 			{}
 
 			// polygon
 			Object(Game& game, uint64_t id, float x, float y, float radius, uint8_t points)
-				: game(game), id_(id), team_(id), x_(x), y_(y), radius_(radius), points_(points), vel_x_(0), vel_y_(0),
-				rotate_((float)rand()), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(10), shape_(Shape::kPolygon)
+				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), points_(points), vel_x_(0), vel_y_(0),
+				rotate_(0), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(10), shape_(Shape::kPolygon)
 			{}
 
 			// data

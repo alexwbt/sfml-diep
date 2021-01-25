@@ -31,6 +31,14 @@ namespace diep
 			x_ += vel_x_;
 			y_ += vel_y_;
 
+			if (friction_)
+			{
+				vel_x_ *= 0.95f;
+				vel_y_ *= 0.95f;
+				if (abs(vel_x_) < 0.01f) vel_x_ = 0;
+				if (abs(vel_y_) < 0.01f) vel_y_ = 0;
+			}
+
 			if (dead_)
 			{
 				opacity_ = std::max(opacity_ - 10, 0);
@@ -43,7 +51,7 @@ namespace diep
 					obj->team_ != team_ &&
 					coll::collide(*this, *obj))
 				{
-					health_ -= obj->body_damage_;
+					//health_ -= obj->body_damage_;
 					opacity_ = 150;
 					float dir = atan2(y_ - obj->y_, x_ - obj->x_);
 					Push(cos(dir), sin(dir));
