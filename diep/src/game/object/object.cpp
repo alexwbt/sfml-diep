@@ -83,7 +83,7 @@ namespace diep
 			border.setRotation(rotate_);
 			target.draw(border);
 
-			float body_radius = radius - game.Scale();
+			float body_radius = radius - border_diff_ * game.Scale();
 			sf::CircleShape body(body_radius, points_);
 			body.setPosition(sf::Vector2f(screen_x, screen_y));
 			body.setOrigin(body_radius, body_radius);
@@ -105,9 +105,9 @@ namespace diep
 				target.draw(health_bar);
 			}
 
-			// render velocity line
 			if (game.debug())
 			{
+				// render velocity line
 				sf::Vertex line[] =
 				{
 					sf::Vertex(sf::Vector2f(screen_x, screen_y), sf::Color::Red),
@@ -117,6 +117,15 @@ namespace diep
 					), sf::Color::Red)
 				};
 				target.draw(line, 2, sf::Lines);
+
+				// render hitbox
+				auto points = coll::polygon_get_points(x_, y_, radius_, points_, rotate_);
+				sf::ConvexShape shape;
+				shape.setFillColor(sf::Color(255, 0, 0, 100));
+				shape.setPointCount(points_);
+				for (int i = 0; i < points->size(); i++)
+					shape.setPoint(i, sf::Vector2f(game.OnScreenX(points->at(i).x), game.OnScreenY(points->at(i).y)));
+				target.draw(shape);
 			}
 		}
 	}

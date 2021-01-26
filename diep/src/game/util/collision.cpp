@@ -4,11 +4,6 @@ namespace diep
 {
     namespace coll
     {
-        struct Point
-        {
-            float x, y;
-        };
-
         bool collide(const object::Object& obj1, const object::Object& obj2)
         {
             int shape1 = (int)obj1.shape();
@@ -34,18 +29,10 @@ namespace diep
 
         bool circle_vs_polygon(const object::Object& obj1, const object::Object& obj2)
         {
-            std::vector<Point> points;
-            for (int i = 0; i < obj2.points(); i++)
-            {
-                float dir = math::PI * 2 * (float)i / (float)obj2.points() + obj2.rotate() * math::PI / 180.0f;
-                float x = obj2.x() + sin(dir) * obj2.radius();
-                float y = obj2.y() + cos(dir) * obj2.radius();
-                points.push_back({ x, y });
-            }
-
-            for (size_t i = 0; i < points.size(); i++)
-                if (circle_vs_line(obj1.radius(), obj1.x(), obj1.y(), points[i].x, points[i].y,
-                    points[(i + 1) % points.size()].x, points[(i + 1) % points.size()].y))
+            auto points = polygon_get_points(obj2.x(), obj2.y(), obj2.radius(), obj2.points(), obj2.rotate());
+            for (size_t i = 0; i < points->size(); i++)
+                if (circle_vs_line(obj1.radius(), obj1.x(), obj1.y(), points->at(i).x, points->at(i).y,
+                    points->at((i + 1) % points->size()).x, points->at((i + 1) % points->size()).y))
                     return true;
             return false;
         }
@@ -78,6 +65,19 @@ namespace diep
             float px = std::min(rx2, std::max(rx1, cx));
             float py = std::min(ry2, std::max(ry1, cy));
             return point_in_circle(radius, cx, cy, px, py);
+        }
+
+        std::shared_ptr<std::vector<Point>> polygon_get_points(float x, float y, float radius, float points, float rotate)
+        {
+            auto pts = std::make_shared<std::vector<Point>>();
+            for (int i = 0; i < points; i++)
+            {
+                float dir = math::PI * 2 * (float)i / (float)points - (rotate + 180) * math::PI / 180.0f;
+                float px = x + sin(dir) * radius;
+                float py = y + cos(dir) * radius;
+                pts->push_back({ px, py });
+            }
+            return pts;
         }
     }
 }
