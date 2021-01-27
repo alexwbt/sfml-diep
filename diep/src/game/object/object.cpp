@@ -26,6 +26,14 @@ namespace diep
 			vel_y_ += y;
 		}
 
+		std::shared_ptr<std::vector<Point>> Object::GetPoints()
+		{
+			if (shape_ != Shape::kPolygon) return nullptr;
+			if (polygon_points_ == nullptr)
+				polygon_points_ = coll::polygon_get_points(x_, y_, radius_, points_, rotate_);
+			return polygon_points_;
+		}
+
 		void Object::Update()
 		{
 			x_ += vel_x_;
@@ -62,6 +70,8 @@ namespace diep
 			if (health_ <= 0)
 				dead_ = true;
 			else opacity_ = std::min(opacity_ + 10, 255);
+
+			polygon_points_ = nullptr;
 		}
 
 		bool Object::OnScreen() const

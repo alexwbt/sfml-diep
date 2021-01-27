@@ -2,6 +2,11 @@
 
 namespace diep
 {
+	struct Point
+	{
+		float x, y;
+	};
+
 	namespace object
 	{
 		enum class Shape
@@ -32,6 +37,9 @@ namespace diep
 			// physics
 			float vel_x_, vel_y_;
 			bool friction_ = true;
+
+			// polygon
+			std::shared_ptr<std::vector<Point>> polygon_points_ = nullptr;
 
 			// game
 			Type type_;
@@ -86,6 +94,7 @@ namespace diep
 
 			// physics
 			void Push(float x, float y);
+			std::shared_ptr<std::vector<Point>> GetPoints();
 
 			// update
 			virtual void Update();

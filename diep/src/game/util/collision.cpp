@@ -4,7 +4,7 @@ namespace diep
 {
     namespace coll
     {
-        bool collide(const object::Object& obj1, const object::Object& obj2)
+        bool collide(object::Object& obj1, object::Object& obj2)
         {
             int shape1 = (int)obj1.shape();
             int shape2 = (int)obj2.shape();
@@ -17,19 +17,27 @@ namespace diep
             }
         }
 
-        bool circle_vs_circle(const object::Object& obj1, const object::Object& obj2)
+        bool circle_vs_circle(object::Object& obj1, object::Object& obj2)
         {
             return pow(obj1.x() - obj2.x(), 2) + pow(obj1.y() - obj2.y(), 2) < pow(obj1.radius() + obj2.radius(), 2);
         }
 
-        bool polygon_vs_polygon(const object::Object& obj1, const object::Object& obj2)
+        bool polygon_vs_polygon(object::Object& obj1, object::Object& obj2)
         {
+            auto p1 = obj1.GetPoints();
+            auto p2 = obj2.GetPoints();
+            for (const auto& p : *p1)
+                if (point_in_polygon(p.x, p.y, *p2))
+                    return true;
+            for (const auto& p : *p2)
+                if (point_in_polygon(p.x, p.y, *p1))
+                    return true;
             return false;
         }
 
-        bool circle_vs_polygon(const object::Object& obj1, const object::Object& obj2)
+        bool circle_vs_polygon(object::Object& obj1, object::Object& obj2)
         {
-            auto points = polygon_get_points(obj2.x(), obj2.y(), obj2.radius(), obj2.points(), obj2.rotate());
+            auto points = obj2.GetPoints();
             for (size_t i = 0; i < points->size(); i++)
                 if (circle_vs_line(obj1.radius(), obj1.x(), obj1.y(), points->at(i).x, points->at(i).y,
                     points->at((i + 1) % points->size()).x, points->at((i + 1) % points->size()).y))
