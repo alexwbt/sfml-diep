@@ -46,7 +46,7 @@ namespace diep
 			uint64_t team_;
 			uint32_t health_, max_health_;
 			uint32_t body_damage_;
-			bool dead_ = false;
+			bool should_remove_ = false, is_particle_ = false;
 
 			// render
 			uint8_t points_ = 100;
@@ -67,7 +67,7 @@ namespace diep
 			// polygon
 			Object(Game& game, uint64_t id, float x, float y, float radius, uint8_t points)
 				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), points_(points), vel_x_(0), vel_y_(0),
-				rotate_((float)(rand() % 180)), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(10), shape_(Shape::kPolygon), border_diff_(3)
+				rotate_((float)(rand() % 180)), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(0), shape_(Shape::kPolygon), border_diff_(3)
 			{}
 
 			// data
@@ -83,18 +83,24 @@ namespace diep
 			float vel_x() const { return vel_x_; }
 			float vel_y() const { return vel_y_; }
 			uint64_t team() const { return team_; }
-			bool dead() const { return dead_; }
+			bool should_remove() const { return should_remove_; }
+			bool is_particle() const { return is_particle_; }
 			Type type() const { return type_; }
 			Shape shape() const { return shape_; }
 			uint8_t opacity() const { return opacity_; }
 			uint8_t points() const { return points_; }
 
 			// setter
+			void SetShouldRemove(bool should_remove);
+			void SetIsParticle(bool is_particle);
+			void SetTeam(uint64_t team);
 			void SetColor(const sf::Color color, const sf::Color border_color);
 
 			// physics
 			void Push(float x, float y);
 			std::shared_ptr<std::vector<Point>> GetPoints();
+
+			virtual void Collide(Object* obj);
 
 			// update
 			virtual void Update();

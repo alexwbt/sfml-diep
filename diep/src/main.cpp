@@ -59,16 +59,16 @@ int main()
 	game.SetFocus(player_id);
 	game.SetControl(player_id);
 
-	diep::object::Tank* tank = new diep::object::Tank(game, game.NextId(), 300, 0, 10);
-	bool ctrls[diep::object::Tank::kControlListSize] = { false, true, false, false, false };
-	tank->SetControls(ctrls);
-	game.Spawn(tank);
+	//diep::object::Tank* tank = new diep::object::Tank(game, game.NextId(), 300, 0, 10);
+	//bool ctrls[diep::object::Tank::kControlListSize] = { false, true, false, false, false };
+	//tank->SetControls(ctrls);
+	//game.Spawn(tank);
 
 	srand((unsigned int)time(0));
 	for (int i = 0; i < 50; i++)
 	{
-		float x = rand() % 1000 - 500.0f;
-		float y = rand() % 1000 - 500.0f;
+		float x = rand() % 2000 - 1000.0f;
+		float y = rand() % 2000 - 1000.0f;
 		float r = rand() % 50 + 10.0f;
 		uint8_t p = rand() % 3 + 3;
 		auto obj = new diep::object::Object(game, game.NextId(), x, y, r, p);

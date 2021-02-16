@@ -6,6 +6,10 @@ namespace diep
     {
         void Component::Update()
         {
+            if (!weapon_.firing() && delay_ > 0 && reload_timer_ < 0)
+            {
+                reload_timer_++;
+            }
             if (reload_timer_ > 0 || (weapon_.firing() && reload_timer_ > -delay_ * weapon_.reload_speed() * reload_speed_mod_))
             {
                 reload_timer_--;

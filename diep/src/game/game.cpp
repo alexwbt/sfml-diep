@@ -27,7 +27,7 @@ namespace diep
 		particles_.remove_if([](object::Object* object)
 		{
 			object->Update();
-			if (object->opacity() <= 0)
+			if (object->should_remove())
 			{
 				delete object;
 				return true;
@@ -63,8 +63,10 @@ namespace diep
 				cam_y_ = object->y();
 			}
 
-			if (object->dead())
+			if (object->should_remove())
 			{
+				object->SetIsParticle(true);
+				object->SetShouldRemove(false);
 				particles_.push_back(object);
 				return true;
 			}

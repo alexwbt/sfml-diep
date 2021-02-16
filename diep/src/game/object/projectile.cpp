@@ -28,8 +28,8 @@ namespace diep
         {
             Object::Update();
 
-            if (--lifetime_ <= 0)
-                dead_ = true;
+            lifetime_ = std::max((int)(lifetime_ - 1), 0);
+            should_remove_ = lifetime_ == 0;
         }
     }
 }

@@ -14,6 +14,9 @@ namespace diep
 
 		}
 
+		void Object::SetShouldRemove(bool should_remove) { should_remove_ = should_remove; }
+		void Object::SetIsParticle(bool is_particle) { is_particle_ = is_particle; }
+		void Object::SetTeam(uint64_t team) { team_ = team; }
 		void Object::SetColor(const sf::Color color, const sf::Color border_color)
 		{
 			color_ = color;
@@ -47,9 +50,10 @@ namespace diep
 				if (abs(vel_y_) < 0.01f) vel_y_ = 0;
 			}
 
-			if (dead_)
+			if (is_particle_)
 			{
 				opacity_ = std::max(opacity_ - 10, 0);
+				should_remove_ = opacity_ == 0;
 				return;
 			}
 
@@ -59,19 +63,23 @@ namespace diep
 					obj->team_ != team_ &&
 					coll::collide(*this, *obj))
 				{
-					//health_ -= obj->body_damage_;
-					opacity_ = 150;
-					float dir = atan2(y_ - obj->y_, x_ - obj->x_);
-					Push(cos(dir), sin(dir));
+					Collide(obj);
 					break;
 				}
 			}
 
-			if (health_ <= 0)
-				dead_ = true;
-			else opacity_ = std::min(opacity_ + 10, 255);
+			should_remove_ = health_ == 0;
+			opacity_ = std::min(opacity_ + 10, 255);
 
 			polygon_points_ = nullptr;
+		}
+
+		void Object::Collide(Object* obj)
+		{
+			health_ = std::max((int)(health_ - obj->body_damage_), 0);
+			opacity_ = 150;
+			float dir = atan2(y_ - obj->y_, x_ - obj->x_);
+			Push(cos(dir), sin(dir));
 		}
 
 		bool Object::OnScreen() const
@@ -102,7 +110,7 @@ namespace diep
 			target.draw(body);
 
 			// render health
-			if (render_health_ && health_ < max_health_ && !dead_)
+			if (render_health_ && health_ < max_health_ && !is_particle_)
 			{
 				sf::RectangleShape max_health_bar(sf::Vector2f(radius * 2.0f, 8));
 				max_health_bar.setPosition(screen_x - radius, screen_y + radius * 1.2f);
