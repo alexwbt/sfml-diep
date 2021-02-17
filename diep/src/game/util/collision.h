@@ -2,6 +2,15 @@
 
 namespace diep
 {
+	namespace object {
+		class Object;
+	}
+
+	struct Point
+	{
+		float x, y;
+	};
+
 	namespace coll
 	{
 		bool collide(object::Object& obj1, object::Object& obj2);

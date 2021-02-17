@@ -24,7 +24,10 @@ namespace diep
 
     void Game::GetData(sf::Packet& data)
     {
-
+        for (auto object : objects_)
+            object->GetData(data);
+        for (auto object : particles_)
+            object->GetData(data);
     }
 
     void Game::Update(sf::Window& window)
@@ -103,15 +106,19 @@ namespace diep
         texture.create(win_width_, win_height_);
 
         for (auto obj : objects_)
-            RenderObject(target, obj, texture);
+            if (obj->OnScreen())
+                RenderObject(target, obj, texture);
         for (auto par : particles_)
-            RenderObject(target, par, texture);
+            if (par->OnScreen())
+                RenderObject(target, par, texture);
     }
 
     void Game::RenderObject(sf::RenderTarget& target, object::Object* obj, sf::RenderTexture& texture)
     {
         if (obj->opacity() == 255)
+        {
             obj->Render(target);
+        }
         else
         {
             texture.clear(sf::Color(0, 0, 0, 0));
@@ -122,12 +129,10 @@ namespace diep
 
             sf::Sprite sprite(texture.getTexture());
             sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -(int)win_height_));
-            
+
             sf::RenderStates states;
             states.shader = &alpha_shader_;
             states.blendMode = sf::BlendMode(sf::BlendMode::One, sf::BlendMode::OneMinusSrcAlpha);
-
-            //sprite.setColor(sf::Color(255, 255, 255, obj->opacity()));
             target.draw(sprite, states);
         }
     }
@@ -166,6 +171,7 @@ namespace diep
             int r = rand() % size_range + min_size;
             uint8_t p = rand() % side_range;
             auto obj = new diep::object::Object(*this, NextId(), x, y, (float)r, p + min_sides);
+            obj->SetHealth(r * 4);
             if (p >= 0 && p < colors_size)
                 obj->SetColor(colors[p], border_colors[p]);
             if (team == -1) team = obj->team();

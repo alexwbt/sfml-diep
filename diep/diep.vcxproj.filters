@@ -71,5 +71,8 @@
     <ClInclude Include="src\game\weapon\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\object\item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

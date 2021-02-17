@@ -11,8 +11,8 @@ namespace diep
             switch (shape1 | shape2)
             {
             case 0b1: return circle_vs_circle(obj1, obj2);
-            case 0b10: return polygon_vs_polygon(obj1, obj2);
-            case 0b11: return shape1 == (int)object::Shape::kCircle ? circle_vs_polygon(obj1, obj2) : circle_vs_polygon(obj2, obj1);
+            case 0b10: return circle_vs_circle(obj1, obj2) && polygon_vs_polygon(obj1, obj2);
+            case 0b11: return circle_vs_circle(obj1, obj2) && (shape1 == (int)object::Shape::kCircle ? circle_vs_polygon(obj1, obj2) : circle_vs_polygon(obj2, obj1));
             default: return false;
             }
         }

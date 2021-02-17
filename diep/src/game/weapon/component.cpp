@@ -41,7 +41,7 @@ namespace diep
             shape.setOutlineThickness(weapon_.owner()->game.Scale());
             for (int i = 0; i < 4; i++) {
                 const float rad = atan2(vertices[i].y, vertices[i].x) + dir;
-                const float mag = sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
+                const float mag = (float)sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
                 shape.setPoint(i, sf::Vector2f(
                     weapon_.owner()->game.OnScreenX(weapon_.owner()->x() + cos(rad) * weapon_.owner()->radius() * mag),
                     weapon_.owner()->game.OnScreenY(weapon_.owner()->y() + sin(rad) * weapon_.owner()->radius() * mag)

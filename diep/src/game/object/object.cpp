@@ -68,6 +68,11 @@ namespace diep
             color_ = color;
             border_color_ = border_color;
         }
+        void Object::SetHealth(uint32_t health)
+        {
+            health_ = health;
+            max_health_ = health;
+        }
 
         void Object::Push(float x, float y)
         {
@@ -85,15 +90,18 @@ namespace diep
 
         void Object::Update()
         {
-            x_ += vel_x_;
-            y_ += vel_y_;
-
-            if (friction_ > 0)
+            if (vel_x_ != 0 || vel_y_ != 0)
             {
-                vel_x_ *= (1.0f - friction_);
-                vel_y_ *= (1.0f - friction_);
-                if (abs(vel_x_) < 0.01f) vel_x_ = 0;
-                if (abs(vel_y_) < 0.01f) vel_y_ = 0;
+                x_ += vel_x_;
+                y_ += vel_y_;
+
+                if (friction_ > 0)
+                {
+                    vel_x_ *= (1.0f - friction_);
+                    vel_y_ *= (1.0f - friction_);
+                    if (abs(vel_x_) < 0.01f) vel_x_ = 0;
+                    if (abs(vel_y_) < 0.01f) vel_y_ = 0;
+                }
             }
 
             if (is_particle_)
@@ -105,8 +113,7 @@ namespace diep
 
             for (Object* obj : game.Objects())
             {
-                if (obj->id_ != id_ &&
-                    coll::collide(*this, *obj))
+                if (obj->id_ != id_ && coll::collide(*this, *obj))
                 {
                     Collide(obj);
                     break;
@@ -132,8 +139,11 @@ namespace diep
 
         bool Object::OnScreen() const
         {
-            // TODO: proper on screen function
-            return true;
+            float radius = radius_ * game.Scale();
+            float screen_x = game.OnScreenX(x_);
+            float screen_y = game.OnScreenY(y_);
+
+            return coll::circle_vs_rect(radius, screen_x, screen_y, 0, 0, (float)game.WinWidth(), (float)game.WinHeight());
         }
 
         void Object::Render(sf::RenderTarget& target) const

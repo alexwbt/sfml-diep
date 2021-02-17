@@ -5,6 +5,7 @@
 
 #include <list>
 #include <algorithm>
+#include <iostream>
 
 namespace diep
 {
@@ -69,14 +70,17 @@ namespace diep
 
 		void SpawnObstacles(int range = 2000, int min_size = 20, int size_range = 50, int min_sides = 3, int side_range = 3);
 
-		float Game::OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
-		float Game::OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
+		float OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
+		float OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
+		uint32_t WinWidth() const { return win_width_; }
+		uint32_t WinHeight() const { return win_height_; }
 
 		bool debug() const { return debug_; }
 	};
 }
 
 #include "util/math.h"
+#include "util/collision.h"
 
 #include "weapon/component.h"
 #include "weapon/weapon.h"
@@ -85,5 +89,5 @@ namespace diep
 #include "object/object.h"
 #include "object/tank.h"
 #include "object/projectile.h"
-
-#include "util/collision.h"
+#include "object/item.h"
+#include "object/WeaponBall.h"

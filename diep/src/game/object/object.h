@@ -2,11 +2,6 @@
 
 namespace diep
 {
-	struct Point
-	{
-		float x, y;
-	};
-
 	namespace object
 	{
 		enum class Shape
@@ -96,12 +91,11 @@ namespace diep
 			void SetIsParticle(bool is_particle);
 			void SetTeam(uint64_t team);
 			void SetColor(const sf::Color color, const sf::Color border_color);
+			void SetHealth(uint32_t health);
 
 			// physics
 			void Push(float x, float y);
 			std::shared_ptr<std::vector<Point>> GetPoints();
-
-			virtual void Collide(Object* obj);
 
 			// update
 			virtual void Update();
@@ -109,6 +103,9 @@ namespace diep
 			// render
 			virtual bool OnScreen() const;
 			virtual void Render(sf::RenderTarget& target) const;
+
+		protected:
+			virtual void Collide(Object* obj);
 		};
 	}
 }

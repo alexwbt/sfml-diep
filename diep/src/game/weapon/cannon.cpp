@@ -20,8 +20,8 @@ namespace diep
                 weapon_.owner()->x() + cos(dir + atan2(y, x)) * mag,
                 weapon_.owner()->y() + sin(dir + atan2(y, x)) * mag,
                 radius,
-                vel_x,// + weapon_.owner()->vel_x(),
-                vel_y,// + weapon_.owner()->vel_y(),
+                vel_x,
+                vel_y,
                 weapon_.bullet_lifetime(),
                 (uint32_t)(weapon_.bullet_damage() * damage_mod_)
             );
