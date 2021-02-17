@@ -19,10 +19,15 @@ namespace diep
                 float radius,
                 float vel_x,
                 float vel_y,
-                uint32_t lifetime
+                uint32_t lifetime,
+                uint32_t damage
             );
 
             void Update() override;
+
+            // data
+            void SetData(sf::Packet& data) override;
+            void GetData(sf::Packet& data) override;
         };
     }
 }

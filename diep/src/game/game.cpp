@@ -2,141 +2,185 @@
 
 namespace diep
 {
-	Game::~Game()
-	{
-		for (auto object : objects_)
-			delete object;
-		for (auto object : spawn_list_)
-			delete object;
-		for (auto object : particles_)
-			delete object;
-	}
+    Game::Game()
+    {
+        alpha_shader_.loadFromFile("src/shaders/alpha_shader.frag", sf::Shader::Fragment);
+    }
 
-	void Game::SetData(sf::Packet& data)
-	{
-		
-	}
+    Game::~Game()
+    {
+        for (auto object : objects_)
+            delete object;
+        for (auto object : spawn_list_)
+            delete object;
+        for (auto object : particles_)
+            delete object;
+    }
 
-	void Game::GetData(sf::Packet& data)
-	{
+    void Game::SetData(sf::Packet& data)
+    {
 
-	}
+    }
 
-	void Game::Update(sf::Window& window)
-	{
-		particles_.remove_if([](object::Object* object)
-		{
-			object->Update();
-			if (object->should_remove())
-			{
-				delete object;
-				return true;
-			}
-			return false;
-		});
+    void Game::GetData(sf::Packet& data)
+    {
 
-		objects_.splice(objects_.begin(), spawn_list_);
-		spawn_list_.clear();
-		objects_.remove_if([this, &window](object::Object* object)
-		{
-			if (control_id_ == object->id() && object->type() == object::Type::kTank)
-			{
-				object::Tank* tank = (object::Tank*)object;
-				bool controls[object::Tank::kControlListSize] =
-				{
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
-					sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
-					sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
-				};
-				tank->SetControls(controls);
+    }
 
-				sf::Vector2i mouse = sf::Mouse::getPosition(window);
-				float dir = atan2f(mouse.y - win_height_ / 2.0f, mouse.x - win_width_ / 2.0f);
-				tank->Turn(dir);
-			}
-			object->Update();
-			if (focus_id_ == object->id())
-			{
-				cam_x_ = object->x();
-				cam_y_ = object->y();
-			}
+    void Game::Update(sf::Window& window)
+    {
+        particles_.remove_if([](object::Object* object)
+            {
+                object->Update();
+                if (object->should_remove())
+                {
+                    delete object;
+                    return true;
+                }
+                return false;
+            });
 
-			if (object->should_remove())
-			{
-				object->SetIsParticle(true);
-				object->SetShouldRemove(false);
-				particles_.push_back(object);
-				return true;
-			}
-			return false;
-		});
-	}
+        objects_.splice(objects_.begin(), spawn_list_);
+        spawn_list_.clear();
+        objects_.remove_if([this, &window](object::Object* object)
+            {
+                if (control_id_ == object->id() && object->type() == object::Type::kTank)
+                {
+                    object::Tank* tank = (object::Tank*)object;
+                    bool controls[object::Tank::kControlListSize] =
+                    {
+                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
+                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
+                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
+                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
+                        sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
+                    };
+                    tank->SetControls(controls);
 
-	void Game::Render(sf::RenderTarget& target) const
-	{
-		const float grid_size = grid_size_ * scale_;
-		const float grid_line_width = grid_line_width_ * scale_;
+                    sf::Vector2i mouse = sf::Mouse::getPosition(window);
+                    float dir = atan2f(mouse.y - win_height_ / 2.0f, mouse.x - win_width_ / 2.0f);
+                    tank->Turn(dir);
+                }
+                object->Update();
+                if (focus_id_ == object->id())
+                {
+                    cam_x_ = object->x();
+                    cam_y_ = object->y();
+                }
 
-		for (float x = fmod(OnScreenX(0), grid_size); x < win_width_; x += grid_size)
-		{
-			sf::RectangleShape line(sf::Vector2f(grid_line_width, (float)win_height_));
-			line.setPosition(x, -grid_line_width / 2.0f);
-			line.setFillColor(sf::Color(200, 200, 200, 255));
-			target.draw(line);
-		}
-		for (float y = fmod(OnScreenY(0), grid_size); y < (float)win_height_; y += grid_size)
-		{
-			sf::RectangleShape line(sf::Vector2f((float)win_width_, grid_line_width));
-			line.setPosition(-grid_line_width / 2.0f, y);
-			line.setFillColor(sf::Color(200, 200, 200, 255));
-			target.draw(line);
-		}
+                if (object->should_remove())
+                {
+                    object->SetIsParticle(true);
+                    object->SetShouldRemove(false);
+                    particles_.push_back(object);
+                    return true;
+                }
+                return false;
+            });
+    }
 
-		sf::RenderTexture texture;
-		texture.create(win_width_, win_height_);
+    void Game::Render(sf::RenderTarget& target)
+    {
+        const float grid_size = grid_size_ * scale_;
+        const float grid_line_width = grid_line_width_ * scale_;
 
-		auto render_obj = [&](object::Object* obj)
-		{
-			if (obj->opacity() == 255)
-				obj->Render(target);
-			else
-			{
-				texture.clear(sf::Color(0, 0, 0, 0));
-				obj->Render(texture);
+        for (float x = fmod(OnScreenX(0), grid_size); x < win_width_; x += grid_size)
+        {
+            sf::RectangleShape line(sf::Vector2f(grid_line_width, (float)win_height_));
+            line.setPosition(x, -grid_line_width / 2.0f);
+            line.setFillColor(sf::Color(200, 200, 200, 255));
+            target.draw(line);
+        }
+        for (float y = fmod(OnScreenY(0), grid_size); y < (float)win_height_; y += grid_size)
+        {
+            sf::RectangleShape line(sf::Vector2f((float)win_width_, grid_line_width));
+            line.setPosition(-grid_line_width / 2.0f, y);
+            line.setFillColor(sf::Color(200, 200, 200, 255));
+            target.draw(line);
+        }
 
-				sf::Sprite sprite(texture.getTexture());
-				sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -(int)win_height_));
-				sprite.setColor(sf::Color(255, 255, 255, obj->opacity()));
-				target.draw(sprite);
-			}
-		};
+        sf::RenderTexture texture;
+        texture.create(win_width_, win_height_);
 
-		for (auto obj : objects_)
-			render_obj(obj);
-		for (auto par : particles_)
-			render_obj(par);
-	}
+        for (auto obj : objects_)
+            RenderObject(target, obj, texture);
+        for (auto par : particles_)
+            RenderObject(target, par, texture);
+    }
 
-	void Game::SetWindowSize(const sf::Vector2u& size)
-	{
-		win_width_ = size.x;
-		win_height_ = size.y;
-	}
+    void Game::RenderObject(sf::RenderTarget& target, object::Object* obj, sf::RenderTexture& texture)
+    {
+        if (obj->opacity() == 255)
+            obj->Render(target);
+        else
+        {
+            texture.clear(sf::Color(0, 0, 0, 0));
+            obj->Render(texture);
 
-	void Game::Spawn(object::Object* obj)
-	{
-		spawn_list_.push_front(obj);
-	}
+            alpha_shader_.setUniform("alpha", obj->opacity() / 255.0f);
+            alpha_shader_.setUniform("time", (float)rand() * time(0));
 
-	void Game::KeyPressed(int key)
-	{
-		switch (key)
-		{
-		case sf::Keyboard::Key::F1:
-			debug_ = !debug_;
-			break;
-		}
-	}
+            sf::Sprite sprite(texture.getTexture());
+            sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -(int)win_height_));
+            
+            sf::RenderStates states;
+            states.shader = &alpha_shader_;
+            states.blendMode = sf::BlendMode(sf::BlendMode::One, sf::BlendMode::OneMinusSrcAlpha);
+
+            //sprite.setColor(sf::Color(255, 255, 255, obj->opacity()));
+            target.draw(sprite, states);
+        }
+    }
+
+    void Game::SetWindowSize(const sf::Vector2u& size)
+    {
+        win_width_ = size.x;
+        win_height_ = size.y;
+    }
+
+    void Game::Spawn(object::Object* obj)
+    {
+        spawn_list_.push_front(obj);
+    }
+
+    void Game::SpawnObstacles(int range, int min_size, int size_range, int min_sides, int side_range)
+    {
+        static constexpr int colors_size = 3;
+        static sf::Color colors[] = {
+            sf::Color(0xdd8800ff),
+            sf::Color(0xeeee99ff),
+            sf::Color(0x0066ffff)
+        };
+        static sf::Color border_colors[] = {
+            sf::Color(0x994400ff),
+            sf::Color(0x888844ff),
+            sf::Color(0x003399ff)
+        };
+
+        uint64_t team = -1;
+        srand((unsigned int)time(0));
+        for (int i = 0; i < 50; i++)
+        {
+            float x = rand() % range - range / 2.0f;
+            float y = rand() % range - range / 2.0f;
+            int r = rand() % size_range + min_size;
+            uint8_t p = rand() % side_range;
+            auto obj = new diep::object::Object(*this, NextId(), x, y, (float)r, p + min_sides);
+            if (p >= 0 && p < colors_size)
+                obj->SetColor(colors[p], border_colors[p]);
+            if (team == -1) team = obj->team();
+            else obj->SetTeam(team);
+            Spawn(obj);
+        }
+    }
+
+    void Game::KeyPressed(int key)
+    {
+        switch (key)
+        {
+        case sf::Keyboard::Key::F1:
+            debug_ = !debug_;
+            break;
+        }
+    }
 }

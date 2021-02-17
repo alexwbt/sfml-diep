@@ -19,6 +19,8 @@ namespace diep
             float length_, width_;
             float recoil_percent_;
 
+            float damage_mod_;
+
             float dir_ = 0.0f;
             float dir_offset_;
 
@@ -32,7 +34,8 @@ namespace diep
                 float y_offset = 0.0f,
                 float reload_speed_mod = 1.0f,
                 float delay = 0.0f,
-                float recoil_percent = 0.1f
+                float recoil_percent = 0.1f,
+                float damange_mod = 1.0f
             ) : weapon_(weapon),
                 length_(length),
                 width_(width),
@@ -41,7 +44,9 @@ namespace diep
                 y_offset_(y_offset),
                 reload_speed_mod_(reload_speed_mod),
                 delay_(delay),
-                recoil_percent_(recoil_percent) {}
+                recoil_percent_(recoil_percent),
+                damage_mod_(damange_mod)
+            {}
 
             virtual void Fire() = 0;
             virtual void Turn(float dir) { dir_ = dir; }

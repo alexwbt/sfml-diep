@@ -22,7 +22,8 @@ namespace diep
                 radius,
                 vel_x,// + weapon_.owner()->vel_x(),
                 vel_y,// + weapon_.owner()->vel_y(),
-                weapon_.bullet_lifetime()
+                weapon_.bullet_lifetime(),
+                (uint32_t)(weapon_.bullet_damage() * damage_mod_)
             );
             weapon_.owner()->game.Spawn(ball);
             weapon_.owner()->Push(-vel_x / 2.0f, -vel_y / 2.0f);

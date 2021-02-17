@@ -36,7 +36,7 @@ namespace diep
 
 			// physics
 			float vel_x_, vel_y_;
-			bool friction_ = true;
+			float friction_ = 0.05f;
 
 			// polygon
 			std::shared_ptr<std::vector<Point>> polygon_points_ = nullptr;
@@ -61,13 +61,14 @@ namespace diep
 		public:
 			Object(Game& game, uint64_t id, float x, float y, float radius)
 				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), vel_x_(0), vel_y_(0),
-				rotate_(0), health_(100), max_health_(100), body_damage_(10)
+				rotate_(0), health_(100), max_health_(100), body_damage_(1)
 			{}
 
 			// polygon
 			Object(Game& game, uint64_t id, float x, float y, float radius, uint8_t points)
 				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), points_(points), vel_x_(0), vel_y_(0),
-				rotate_((float)(rand() % 180)), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(0), shape_(Shape::kPolygon), border_diff_(3)
+				rotate_((float)(rand() % 180)), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(1), shape_(Shape::kPolygon),
+				border_diff_(std::max(8 - points, 3))
 			{}
 
 			// data

@@ -39,14 +39,19 @@ namespace diep
 
 		bool debug_ = false;
 
+		// shaders
+		sf::Shader alpha_shader_;
+
 	public:
+		Game();
 		~Game();
 
 		void SetData(sf::Packet& data) override;
 		void GetData(sf::Packet& data) override;
 
 		void Update(sf::Window& window);
-		void Render(sf::RenderTarget& target) const;
+		void Render(sf::RenderTarget& target);
+		void RenderObject(sf::RenderTarget& target, object::Object* obj, sf::RenderTexture& texture);
 
 		void KeyPressed(int key);
 
@@ -61,6 +66,8 @@ namespace diep
 
 		void Spawn(object::Object* obj);
 		uint64_t NextId() { return next_id_++; };
+
+		void SpawnObstacles(int range = 2000, int min_size = 20, int size_range = 50, int min_sides = 3, int side_range = 3);
 
 		float Game::OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
 		float Game::OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
