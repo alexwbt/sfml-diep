@@ -6,6 +6,7 @@
 #include <list>
 #include <algorithm>
 #include <iostream>
+#include <chrono>
 
 namespace diep
 {
@@ -69,6 +70,7 @@ namespace diep
 		uint64_t NextId() { return next_id_++; };
 
 		void SpawnObstacles(int range = 2000, int min_size = 20, int size_range = 50, int min_sides = 3, int side_range = 3);
+		void SpawnItems(int range = 2000);
 
 		float OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
 		float OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
@@ -90,4 +92,4 @@ namespace diep
 #include "object/tank.h"
 #include "object/projectile.h"
 #include "object/item.h"
-#include "object/WeaponBall.h"
+#include "object/weapon-ball.h"

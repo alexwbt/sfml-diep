@@ -63,6 +63,7 @@ namespace diep
         void Object::SetShouldRemove(bool should_remove) { should_remove_ = should_remove; }
         void Object::SetIsParticle(bool is_particle) { is_particle_ = is_particle; }
         void Object::SetTeam(uint64_t team) { team_ = team; }
+        void Object::SetBorderDiff(float diff) { border_diff_ = diff; }
         void Object::SetColor(const sf::Color color, const sf::Color border_color)
         {
             color_ = color;
@@ -72,6 +73,11 @@ namespace diep
         {
             health_ = health;
             max_health_ = health;
+        }
+        void Object::SetPos(float x, float y)
+        {
+            x_ = x;
+            y_ = y;
         }
 
         void Object::Push(float x, float y)
@@ -109,15 +115,6 @@ namespace diep
                 opacity_ = std::max(opacity_ - 10, 0);
                 should_remove_ = opacity_ == 0;
                 return;
-            }
-
-            for (Object* obj : game.Objects())
-            {
-                if (obj->id_ != id_ && coll::collide(*this, *obj))
-                {
-                    Collide(obj);
-                    break;
-                }
             }
 
             should_remove_ = health_ == 0;

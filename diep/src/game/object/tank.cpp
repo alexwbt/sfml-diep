@@ -4,6 +4,17 @@ namespace diep
 {
 	namespace object
 	{
+		Tank::~Tank()
+		{
+			delete weapon_;
+		}
+
+		void Tank::SetWeapon(weapon::Type type)
+		{
+			delete weapon_;
+			weapon_ = new weapon::Weapon(this, type);
+		}
+
 		void Tank::SetControls(bool* controls)
 		{
 			for (int i = 0; i < object::Tank::kControlListSize; i++)
@@ -25,15 +36,15 @@ namespace diep
 				Push(cos(move_dir) * move_force_, sin(move_dir) * move_force_);
 			}
 
-			weapon_.Fire(controls_[4]);
+			weapon_->Fire(controls_[4]);
 
 			Object::Update();
-			weapon_.Update();
+			weapon_->Update();
 		}
 
 		void Tank::Render(sf::RenderTarget& target) const
 		{
-			weapon_.Render(target);
+			weapon_->Render(target);
 			Object::Render(target);
 		}
 	}

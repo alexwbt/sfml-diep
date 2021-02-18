@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\object\item.h" />
+    <ClInclude Include="src\game\object\WeaponBall.h" />
     <ClInclude Include="src\game\util\math.h" />
     <ClInclude Include="src\game\object\projectile.h" />
     <ClInclude Include="src\game\weapon\cannon.h" />

@@ -46,7 +46,7 @@ namespace diep
 			// render
 			uint8_t points_ = 100;
 			uint8_t opacity_ = 255;
-			uint8_t border_diff_ = 1;
+			float border_diff_ = 1.0f;
 			Shape shape_ = Shape::kCircle;
 			sf::Color color_ = sf::Color(0, 170, 255, 255);
 			sf::Color border_color_ = sf::Color(0, 100, 200, 255);
@@ -63,7 +63,7 @@ namespace diep
 			Object(Game& game, uint64_t id, float x, float y, float radius, uint8_t points)
 				: game(game), id_(id), type_(Type::kObject), team_(id), x_(x), y_(y), radius_(radius), points_(points), vel_x_(0), vel_y_(0),
 				rotate_((float)(rand() % 180)), health_((int)radius * 2), max_health_((int)radius * 2), body_damage_(1), shape_(Shape::kPolygon),
-				border_diff_(std::max(8 - points, 3))
+				border_diff_(std::max(8.0f - points, 3.0f))
 			{}
 
 			// data
@@ -85,6 +85,7 @@ namespace diep
 			Shape shape() const { return shape_; }
 			uint8_t opacity() const { return opacity_; }
 			uint8_t points() const { return points_; }
+			float border_diff() const { return border_diff_; }
 
 			// setter
 			void SetShouldRemove(bool should_remove);
@@ -92,10 +93,14 @@ namespace diep
 			void SetTeam(uint64_t team);
 			void SetColor(const sf::Color color, const sf::Color border_color);
 			void SetHealth(uint32_t health);
+			void SetBorderDiff(float diff);
+			void SetPos(float x, float y);
 
 			// physics
 			void Push(float x, float y);
 			std::shared_ptr<std::vector<Point>> GetPoints();
+
+			virtual void Collide(Object* obj);
 
 			// update
 			virtual void Update();
@@ -103,9 +108,6 @@ namespace diep
 			// render
 			virtual bool OnScreen() const;
 			virtual void Render(sf::RenderTarget& target) const;
-
-		protected:
-			virtual void Collide(Object* obj);
 		};
 	}
 }

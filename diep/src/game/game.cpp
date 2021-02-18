@@ -32,6 +32,23 @@ namespace diep
 
     void Game::Update(sf::Window& window)
     {
+        std::vector<object::Object*> objs;
+        objs.reserve(objects_.size());
+        objs.insert(objs.begin(), objects_.begin(), objects_.end());
+        int size = (int)objs.size();
+        for (int i = 0; i < size - 1; i++)
+        {
+            for (int j = i + 1; j < objs.size(); j++)
+            {
+                if (objs[i]->id() != objs[j]->id() && coll::collide(*objs[i], *objs[j]))
+                {
+                    objs[i]->Collide(objs[j]);
+                    objs[j]->Collide(objs[i]);
+                    break;
+                }
+            }
+        }
+
         particles_.remove_if([](object::Object* object)
             {
                 object->Update();
@@ -125,7 +142,8 @@ namespace diep
             obj->Render(texture);
 
             alpha_shader_.setUniform("alpha", obj->opacity() / 255.0f);
-            alpha_shader_.setUniform("time", (float)rand() * time(0));
+            alpha_shader_.setUniform("range", std::min(2.5f, obj->radius() * 0.2f) * scale_ / win_width_);
+            alpha_shader_.setUniform("scale", std::max(6.0f, 30.0f - obj->radius()));
 
             sf::Sprite sprite(texture.getTexture());
             sprite.setTextureRect(sf::IntRect(0, win_height_, win_width_, -(int)win_height_));
@@ -176,6 +194,18 @@ namespace diep
                 obj->SetColor(colors[p], border_colors[p]);
             if (team == -1) team = obj->team();
             else obj->SetTeam(team);
+            Spawn(obj);
+        }
+    }
+
+    void Game::SpawnItems(int range)
+    {
+        srand((unsigned int)time(0));
+        for (int i = 0; i < 50; i++)
+        {
+            float x = rand() % range - range / 2.0f;
+            float y = rand() % range - range / 2.0f;
+            auto obj = new diep::object::WeaponBall(*this, NextId(), x, y);
             Spawn(obj);
         }
     }

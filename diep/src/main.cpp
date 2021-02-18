@@ -65,6 +65,7 @@ int main()
 	game.Spawn(tank);
 
 	game.SpawnObstacles();
+	game.SpawnItems();
 
 	// game loop
 	auto start_time = high_resolution_clock::now();
