@@ -38,7 +38,7 @@ namespace diep
 
             shape.setFillColor(sf::Color(150, 150, 150, 255));
             shape.setOutlineColor(sf::Color(100, 100, 100, 255));
-            shape.setOutlineThickness(weapon_.owner()->game.Scale());
+            shape.setOutlineThickness(weapon_.owner()->border_diff() * weapon_.owner()->game.Scale());
             for (int i = 0; i < 4; i++) {
                 const float rad = atan2(vertices[i].y, vertices[i].x) + dir;
                 const float mag = (float)sqrt(pow(vertices[i].x, 2) + pow(vertices[i].y, 2));
