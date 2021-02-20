@@ -9,6 +9,9 @@ namespace diep
         private:
             uint32_t lifetime_;
 
+        protected:
+            float push_back_mod_ = 0.5f;
+
         public:
             Projectile(
                 Game& game,
@@ -21,13 +24,41 @@ namespace diep
                 float vel_y,
                 uint32_t lifetime,
                 uint32_t damage
-            );
+            ) : Object(game, id, x, y, radius), lifetime_(lifetime)
+            {
+                team_ = team;
+                vel_x_ = vel_x;
+                vel_y_ = vel_y;
+                friction_ = 0;
+                render_health_ = false;
+                body_damage_ = damage;
+                type_ = Type::kProjectile;
+            }
 
-            void Update() override;
+            float push_back_mod() const { return push_back_mod_; }
 
-            // data
-            void SetData(sf::Packet& data) override;
-            void GetData(sf::Packet& data) override;
+            void Update() override
+            {
+                Object::Update();
+
+                if (!is_particle_)
+                {
+                    lifetime_ = std::max((int)(lifetime_ - 1), 0);
+                    should_remove_ = lifetime_ == 0;
+                }
+            }
+
+            void SetData(sf::Packet& data) override
+            {
+                Object::SetData(data);
+                data >> lifetime_;
+            }
+
+            void GetData(sf::Packet& data) override
+            {
+                Object::GetData(data);
+                data << lifetime_;
+            }
         };
     }
 }

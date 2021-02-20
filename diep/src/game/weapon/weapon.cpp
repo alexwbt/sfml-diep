@@ -12,13 +12,19 @@ namespace diep
             case Type::kSingleConnon:
                 component_count_ = 1;
                 components_ = new Component * [1];
-                components_[0] = new Cannon(*this);
+                components_[0] = new Cannon<>(*this);
                 break;
             case Type::kTwinCannon:
                 component_count_ = 2;
                 components_ = new Component * [2];
-                components_[0] = new Cannon(*this, 1.5f, 0.6f, 0, 0, -0.5f);
-                components_[1] = new Cannon(*this, 1.5f, 0.6f, 0, 0, 0.5f, 1.0f, 0.5f);
+                components_[0] = new Cannon<>(*this, 1.5f, 0.6f, 0, 0, -0.5f);
+                components_[1] = new Cannon<>(*this, 1.5f, 0.6f, 0, 0, 0.5f, 1.0f, 0.5f);
+                break;
+            case Type::kHeavyCannon:
+                component_count_ = 1;
+                components_ = new Component * [1];
+                components_[0] = new Cannon<object::HeavyProjectile>(*this, 1.8f, 1.5f, 0.0f, 0.0f, 0.0f, 3.0f);
+                break;
             }
         }
 

@@ -90,8 +90,10 @@ namespace diep
 
 #include "object/object.h"
 #include "object/tank.h"
-#include "object/projectile.h"
 
-#include "object/items/item.h"
+#include "object/projectile.h"
+#include "object/projectiles/heavy-projectile.h"
+
+#include "object/item.h"
 #include "object/items/weapon-ball.h"
 #include "object/items/health-ball.h"

@@ -80,20 +80,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\object\projectile.cpp" />
     <ClCompile Include="src\game\weapon\component.cpp" />
-    <ClCompile Include="src\game\weapon\cannon.cpp" />
     <ClCompile Include="src\game\util\collision.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\game\object\object.cpp" />
-    <ClCompile Include="src\game\object\tank.cpp" />
     <ClCompile Include="src\game\weapon\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\object\items\health-ball.h" />
-    <ClInclude Include="src\game\object\items\item.h" />
+    <ClInclude Include="src\game\object\item.h" />
     <ClInclude Include="src\game\object\items\weapon-ball.h" />
+    <ClInclude Include="src\game\object\projectiles\heavy-projectile.h" />
     <ClInclude Include="src\game\util\math.h" />
     <ClInclude Include="src\game\object\projectile.h" />
     <ClInclude Include="src\game\weapon\cannon.h" />

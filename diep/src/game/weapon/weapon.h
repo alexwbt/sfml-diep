@@ -8,6 +8,7 @@ namespace diep
 		{
 			kSingleConnon,
 			kTwinCannon,
+			kHeavyCannon,
 			End
 		};
 
