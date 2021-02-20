@@ -69,8 +69,8 @@ namespace diep
 		void Spawn(object::Object* obj);
 		uint64_t NextId() { return next_id_++; };
 
-		void SpawnObstacles(int range = 2000, int min_size = 20, int size_range = 50, int min_sides = 3, int side_range = 3);
-		void SpawnItems(int range = 2000);
+		void SpawnObstacles(int amount = 50, int range = 2000, int min_size = 20, int size_range = 50, int min_sides = 3, int side_range = 3);
+		void SpawnItems(int amount = 60, int range = 2000);
 
 		float OnScreenX(float game_x) const { return (game_x - cam_x_) * scale_ + win_width_ / 2.0f; }
 		float OnScreenY(float game_y) const { return (game_y - cam_y_) * scale_ + win_height_ / 2.0f; }
@@ -91,5 +91,7 @@ namespace diep
 #include "object/object.h"
 #include "object/tank.h"
 #include "object/projectile.h"
-#include "object/item.h"
-#include "object/weapon-ball.h"
+
+#include "object/items/item.h"
+#include "object/items/weapon-ball.h"
+#include "object/items/health-ball.h"

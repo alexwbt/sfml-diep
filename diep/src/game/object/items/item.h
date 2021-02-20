@@ -18,10 +18,10 @@ namespace diep
             void Collide(Object* obj) override
             {
                 float dir = atan2(y_ - obj->y(), x_ - obj->x());
-                if (obj->type() == Type::kTank)
+                if (CanGet(obj))
                 {
                     health_ = 0;
-                    OnGet((Tank*)obj);
+                    OnGet(obj);
                     obj->Push(cos(dir), sin(dir));
                 }
                 else
@@ -30,7 +30,11 @@ namespace diep
                 }
             }
 
-            virtual void OnGet(Tank* obj) = 0;
+            virtual void OnGet(Object* obj) = 0;
+            virtual bool CanGet(Object* obj)
+            {
+                return obj->type() == Type::kTank;
+            }
         };
     }
 }

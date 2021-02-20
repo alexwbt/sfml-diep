@@ -166,7 +166,7 @@ namespace diep
         spawn_list_.push_front(obj);
     }
 
-    void Game::SpawnObstacles(int range, int min_size, int size_range, int min_sides, int side_range)
+    void Game::SpawnObstacles(int amount, int range, int min_size, int size_range, int min_sides, int side_range)
     {
         static constexpr int colors_size = 3;
         static sf::Color colors[] = {
@@ -182,14 +182,14 @@ namespace diep
 
         uint64_t team = -1;
         srand((unsigned int)time(0));
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < amount; i++)
         {
             float x = rand() % range - range / 2.0f;
             float y = rand() % range - range / 2.0f;
             int r = rand() % size_range + min_size;
             uint8_t p = rand() % side_range;
             auto obj = new diep::object::Object(*this, NextId(), x, y, (float)r, p + min_sides);
-            obj->SetHealth(r * 4);
+            obj->SetMaxHealth(r * 4);
             if (p >= 0 && p < colors_size)
                 obj->SetColor(colors[p], border_colors[p]);
             if (team == -1) team = obj->team();
@@ -198,15 +198,20 @@ namespace diep
         }
     }
 
-    void Game::SpawnItems(int range)
+    void Game::SpawnItems(int amount, int range)
     {
         srand((unsigned int)time(0));
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < amount; i++)
         {
             float x = rand() % range - range / 2.0f;
             float y = rand() % range - range / 2.0f;
-            auto obj = new diep::object::WeaponBall(*this, NextId(), x, y);
-            Spawn(obj);
+            Spawn(new diep::object::WeaponBall(*this, NextId(), x, y));
+        }
+        for (int i = 0; i < amount; i++)
+        {
+            float x = rand() % range - range / 2.0f;
+            float y = rand() % range - range / 2.0f;
+            Spawn(new diep::object::HealthBall(*this, NextId(), x, y));
         }
     }
 

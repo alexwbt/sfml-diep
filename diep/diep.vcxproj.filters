@@ -71,10 +71,13 @@
     <ClInclude Include="src\game\weapon\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\object\item.h">
+    <ClInclude Include="src\game\object\items\item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\object\WeaponBall.h">
+    <ClInclude Include="src\game\object\items\weapon-ball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\object\items\health-ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

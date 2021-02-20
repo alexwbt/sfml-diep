@@ -37,9 +37,9 @@ namespace diep
             }
 
         protected:
-            void OnGet(Tank* obj) override
+            void OnGet(Object* obj) override
             {
-                obj->SetWeapon(weapon_type_);
+                ((Tank*)obj)->SetWeapon(weapon_type_);
             }
         };
     }

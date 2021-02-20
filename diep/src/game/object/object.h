@@ -78,6 +78,8 @@ namespace diep
 			float rotate() const { return rotate_; }
 			float vel_x() const { return vel_x_; }
 			float vel_y() const { return vel_y_; }
+			uint32_t health() const { return health_; }
+			uint32_t max_health() const { return max_health_; }
 			uint64_t team() const { return team_; }
 			bool should_remove() const { return should_remove_; }
 			bool is_particle() const { return is_particle_; }
@@ -92,6 +94,7 @@ namespace diep
 			void SetIsParticle(bool is_particle);
 			void SetTeam(uint64_t team);
 			void SetColor(const sf::Color color, const sf::Color border_color);
+			void SetMaxHealth(uint32_t health);
 			void SetHealth(uint32_t health);
 			void SetBorderDiff(float diff);
 			void SetPos(float x, float y);

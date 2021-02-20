@@ -91,8 +91,9 @@
     <ClCompile Include="src\game\weapon\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\game\object\item.h" />
-    <ClInclude Include="src\game\object\WeaponBall.h" />
+    <ClInclude Include="src\game\object\items\health-ball.h" />
+    <ClInclude Include="src\game\object\items\item.h" />
+    <ClInclude Include="src\game\object\items\weapon-ball.h" />
     <ClInclude Include="src\game\util\math.h" />
     <ClInclude Include="src\game\object\projectile.h" />
     <ClInclude Include="src\game\weapon\cannon.h" />

@@ -69,7 +69,7 @@ namespace diep
             color_ = color;
             border_color_ = border_color;
         }
-        void Object::SetHealth(uint32_t health)
+        void Object::SetMaxHealth(uint32_t health)
         {
             health_ = health;
             max_health_ = health;
@@ -78,6 +78,10 @@ namespace diep
         {
             x_ = x;
             y_ = y;
+        }
+        void Object::SetHealth(uint32_t health)
+        {
+            health_ = std::min(health, max_health_);
         }
 
         void Object::Push(float x, float y)
