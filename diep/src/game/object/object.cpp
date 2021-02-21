@@ -153,7 +153,9 @@ namespace diep
             float screen_x = game.OnScreenX(x_);
             float screen_y = game.OnScreenY(y_);
 
-            sf::CircleShape border(radius, points_);
+            size_t points = points_ > 0 ? points_ : 10 * log(radius);
+
+            sf::CircleShape border(radius, points);
             border.setPosition(sf::Vector2f(screen_x, screen_y));
             border.setFillColor(border_color_);
             border.setOrigin(radius, radius);
@@ -161,7 +163,7 @@ namespace diep
             target.draw(border);
 
             float body_radius = radius - border_diff_ * game.Scale();
-            sf::CircleShape body(body_radius, points_);
+            sf::CircleShape body(body_radius, points);
             body.setPosition(sf::Vector2f(screen_x, screen_y));
             body.setOrigin(body_radius, body_radius);
             body.setRotation(rotate_);
@@ -196,13 +198,25 @@ namespace diep
                 target.draw(line, 2, sf::Lines);
 
                 // render hitbox
-                auto points = coll::polygon_get_points(x_, y_, radius_, points_, rotate_);
-                sf::ConvexShape shape;
-                shape.setFillColor(sf::Color(255, 0, 0, 100));
-                shape.setPointCount(points_);
-                for (int i = 0; i < points->size(); i++)
-                    shape.setPoint(i, sf::Vector2f(game.OnScreenX(points->at(i).x), game.OnScreenY(points->at(i).y)));
-                target.draw(shape);
+                if (points_ == 0)
+                {
+                    sf::CircleShape shape(radius, points);
+                    shape.setPosition(sf::Vector2f(screen_x, screen_y));
+                    shape.setFillColor(sf::Color(255, 0, 0, 100));
+                    shape.setOrigin(radius, radius);
+                    shape.setRotation(rotate_);
+                    target.draw(shape);
+                }
+                else
+                {
+                    auto points = coll::polygon_get_points(x_, y_, radius_, points_, rotate_);
+                    sf::ConvexShape shape;
+                    shape.setFillColor(sf::Color(255, 0, 0, 100));
+                    shape.setPointCount(points_);
+                    for (int i = 0; i < points->size(); i++)
+                        shape.setPoint(i, sf::Vector2f(game.OnScreenX(points->at(i).x), game.OnScreenY(points->at(i).y)));
+                    target.draw(shape);
+                }
             }
         }
     }

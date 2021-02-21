@@ -44,7 +44,7 @@ namespace diep
 			bool should_remove_ = false, is_particle_ = false;
 
 			// render
-			uint8_t points_ = 100;
+			uint8_t points_ = 0;
 			uint8_t opacity_ = 255;
 			float border_diff_ = 1.0f;
 			Shape shape_ = Shape::kCircle;
@@ -86,7 +86,6 @@ namespace diep
 			Type type() const { return type_; }
 			Shape shape() const { return shape_; }
 			uint8_t opacity() const { return opacity_; }
-			uint8_t points() const { return points_; }
 			float border_diff() const { return border_diff_; }
 
 			// setter
