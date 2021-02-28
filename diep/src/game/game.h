@@ -21,7 +21,7 @@ namespace diep
 		virtual void GetData(sf::Packet& data) = 0;
 	};
 
-	class Game : public GameData
+	class Game final : public GameData
 	{
 	private:
 		float grid_size_ = 50.0f;

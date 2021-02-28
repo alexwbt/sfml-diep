@@ -66,6 +66,8 @@ namespace diep
 				border_diff_(std::max(8.0f - points, 3.0f))
 			{}
 
+			virtual ~Object() {}
+
 			// data
 			void SetData(sf::Packet& data) override;
 			void GetData(sf::Packet& data) override;

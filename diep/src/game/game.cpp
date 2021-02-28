@@ -49,54 +49,57 @@ namespace diep
             }
         }
 
-        particles_.remove_if([](object::Object* object)
+        auto update_particles = [](object::Object* object)
+        {
+            object->Update();
+            if (object->should_remove())
             {
-                object->Update();
-                if (object->should_remove())
-                {
-                    delete object;
-                    return true;
-                }
-                return false;
-            });
+                delete object;
+                return true;
+            }
+            return false;
+        };
+        particles_.remove_if(update_particles);
 
         objects_.splice(objects_.begin(), spawn_list_);
         spawn_list_.clear();
-        objects_.remove_if([this, &window](object::Object* object)
+
+        auto update_objs = [this, &window](object::Object* object)
+        {
+            if (control_id_ == object->id() && object->type() == object::Type::kTank)
             {
-                if (control_id_ == object->id() && object->type() == object::Type::kTank)
+                object::Tank* tank = (object::Tank*)object;
+                bool controls[object::Tank::kControlListSize] =
                 {
-                    object::Tank* tank = (object::Tank*)object;
-                    bool controls[object::Tank::kControlListSize] =
-                    {
-                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
-                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
-                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
-                        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
-                        sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
-                    };
-                    tank->SetControls(controls);
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W),
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A),
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S),
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D),
+                    sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
+                };
+                tank->SetControls(controls);
 
-                    sf::Vector2i mouse = sf::Mouse::getPosition(window);
-                    float dir = atan2f(mouse.y - win_height_ / 2.0f, mouse.x - win_width_ / 2.0f);
-                    tank->Turn(dir);
-                }
-                object->Update();
-                if (focus_id_ == object->id())
-                {
-                    cam_x_ = object->x();
-                    cam_y_ = object->y();
-                }
+                sf::Vector2i mouse = sf::Mouse::getPosition(window);
+                float dir = atan2f(mouse.y - win_height_ / 2.0f, mouse.x - win_width_ / 2.0f);
+                tank->Turn(dir);
+            }
+            object->Update();
+            if (focus_id_ == object->id())
+            {
+                cam_x_ = object->x();
+                cam_y_ = object->y();
+            }
 
-                if (object->should_remove())
-                {
-                    object->SetIsParticle(true);
-                    object->SetShouldRemove(false);
-                    particles_.push_back(object);
-                    return true;
-                }
-                return false;
-            });
+            if (object->should_remove())
+            {
+                object->SetIsParticle(true);
+                object->SetShouldRemove(false);
+                particles_.push_back(object);
+                return true;
+            }
+            return false;
+        };
+        objects_.remove_if(update_objs);
     }
 
     void Game::Render(sf::RenderTarget& target)

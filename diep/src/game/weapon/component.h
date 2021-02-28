@@ -48,6 +48,8 @@ namespace diep
                 damage_mod_(damange_mod)
             {}
 
+            virtual ~Component() {}
+
             virtual void Fire() = 0;
             virtual void Turn(float dir) { dir_ = dir; }
 

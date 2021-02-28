@@ -12,7 +12,7 @@ namespace diep
 			End
 		};
 
-		class Weapon
+		class Weapon final
 		{
 		private:
 			Type type_;
@@ -38,6 +38,7 @@ namespace diep
 			float bullet_speed() const { return bullet_speed_; }
 			uint32_t bullet_damage() const { return bullet_damage_; }
 			uint32_t bullet_lifetime() const { return bullet_lifetime_; }
+			Type type() const { return type_; }
 
 			void Fire(bool fire) { firing_ = fire; }
 			void Turn(float dir);
